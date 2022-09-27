@@ -14,12 +14,17 @@ mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true, useUnifiedTop
 
 // Import de models
 const UserModel = require("./models/User")
+const PassengerModel = require("./models/Passenger")
+
 
 // Inicialização das rotas
 const userRoutes = require("./routes/UserRoutes");
+const passengerRoutes = require("./routes/PassengerRoutes");
+
 
 // Rotas
 app.use("/user", userRoutes);
+app.use("/passenger", passengerRoutes);
 
 const PORT = process.env.PORT || 8080;
 
