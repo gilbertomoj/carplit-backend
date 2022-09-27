@@ -7,25 +7,21 @@ const config = require("../config/auth");
 require("dotenv").config();
 
 module.exports = {
-    async getTrips(user_id){
-        const trips = await Trips.find({where:{driver: user_id}});
+
+    async getTrips(user_id) {
+        const trips = await Trips.findById(user_id).populate("passengers");
         return trips;
     },
 
-    async createTrips( title, driver, passengers, total_distance, data ){
-        try {
-            const trip = await Trips.create({
-                title,
-                driver,
-                passengers,
-                total_distance,
-                data
-            })
-            return trip;
-        } catch (error) {
-            return {message: error, status: 400}
-        }
+    async createTrips(title, driver, passangers, totalDistance, data) {
+        const trip = await Trips.create({
+            title,
+            driver,
+            passangers,
+            totalDistance,
+            data,
+        });
+        return trip;
+    },
+};
 
-
-    }
-}
