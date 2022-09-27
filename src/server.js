@@ -10,7 +10,11 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 //Conexão com mongoose
+<<<<<<< HEAD
 mongoose.connect("mongodb+srv://ggibam:1234@cluster0.n7wjui8.mongodb.net/?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true})
+=======
+mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true, useUnifiedTopology: true})
+>>>>>>> 18410e3018a9cee32bf649c31eaa2ac3953a2c85
 
 // Import de models
 const UserModel = require("./models/User")
