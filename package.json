@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/gilbertomoj/carplit-backend#readme",
   "dependencies": {
+    "@shelf/jest-mongodb": "^4.1.0",
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
