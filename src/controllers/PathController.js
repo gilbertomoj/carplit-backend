@@ -39,7 +39,7 @@ module.exports = {
             const UpdatedPath = await Path.findByIdAndUpdate(id, {
                 title,
                 totalDistance,
-            });
+            }, { new: true });
             return UpdatedPath;
         } catch (error) {
             return { message: error, status: 400 };

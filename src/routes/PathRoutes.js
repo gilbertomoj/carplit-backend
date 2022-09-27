@@ -33,12 +33,10 @@ router.get("/get/:id", UserAuth, async (req, res) => {
 
 router.put("/update/:id", UserAuth, async (req, res) => {
     const path_id = req.params.id;
-    const { title, totalDistance } = req;
+    const { title, totalDistance } = req.body;
 
-    const Path = await PathController.updatePath({
-        where: { path_id },
-        $set: { title, totalDistance },
-    });
+    const Path = await PathController.updatePath(path_id, title, totalDistance);
+
     res.send(Path);
 });
 
