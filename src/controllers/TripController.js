@@ -7,6 +7,7 @@ const config = require("../config/auth");
 require("dotenv").config();
 
 module.exports = {
+
     async getTrips(user_id) {
         const trips = await Trips.findById(user_id).populate("passengers");
         return trips;
@@ -23,3 +24,4 @@ module.exports = {
         return trip;
     },
 };
+

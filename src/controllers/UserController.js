@@ -74,12 +74,9 @@ module.exports = {
             return {message: error, status: 400}
         }
     },
-    async updateUser(id){
+    async updateUser(id, obj){
         try{
-            const UpdatedUser = await User.updateOne({where:{id}}, {$set:{
-                email,
-                password,
-            }});
+            const UpdatedUser = await User.findByIdAndUpdate(id, obj);
             return UpdatedUser;
         } catch (error){
             return {message: error, status: 400}

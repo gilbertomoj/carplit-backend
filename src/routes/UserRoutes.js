@@ -38,8 +38,14 @@ router.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
     const result = await UserController.login(email, password);
-
     return res.json(result);
+});
+
+router.post("/trips/create", UserAuth, async (req, res)=>{
+    const { title, driver, passengers, total_distance, data } = req.body;
+    const result = await TripController.createTrips(title, driver, passengers, total_distance, data);
+    // Pegar as trips apenas do usuário logado
+    return res.json( result );
 });
 
 router.get("/trips/get", UserAuth, async (req, res) => {
@@ -75,9 +81,15 @@ router.get("/users/get/:nome", UserAuth, async (req, res) => {
     res.send(User);
 });
 
-router.put("/users/update/:id", UserAuth, async (req, res) => {
-    //
-});
+
+router.put("/update/:id", UserAuth, async (req,res)=>{
+    const id = req.params.id
+    const obj = req.body;
+    const result = await UserController.updateUser(id, obj);
+    
+    return res.json( result )
+})
+
 
 router.delete("/users/delete/:nome", UserAuth, async (req, res) => {
     //
