@@ -9,6 +9,14 @@ const Usuario = new Schema({
     password:{
         type: String,
         required: true
+    },
+    average_consumption: {
+        type: Number,
+        required: true
+    },
+    fuel_per_liter: {
+        type: Number,
+        required: true
     }
 })
 

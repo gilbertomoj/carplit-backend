@@ -12,10 +12,18 @@ const UserController = require("../controllers/UserController");
 // Middlewares 
 const UserAuth = require("../middleware/UserAuth");
 
-router.post("/register", async (req, res)=> {
-    const { email, password } = req.body;
+router.post("/verify/email", async (req, res)=> {
+    const { email } = req.body;
 
-    const result = await UserController.createUser(email, password);
+    const result = await UserController.verifyEmail(email);
+    
+    return res.json( result )
+})
+
+router.post("/register", async (req, res)=> {
+    const { email, password, average_consumption, fuel_per_liter } = req.body;
+
+    const result = await UserController.createUser(email, password, average_consumption, fuel_per_liter);
     
     return res.json( result )
 })

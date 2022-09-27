@@ -5,22 +5,35 @@ const config = require("../config/auth");
 require("dotenv").config();
 
 module.exports = {
-    async createUser(email, password){
+    async createUser(email, password, average_consumption, fuel_per_liter){
+        try{
+            const user = await User.create({
+                email,
+                password: bcript.hashSync(password, 8),
+                average_consumption,
+                fuel_per_liter
+            })
+            
+            return {user, status: 200};
+
+        } catch (error){
+            return {message: error, status: 400}
+        }
+    },
+
+    async verifyEmail(email){
         try{
             const user = await User.findOne({email});
-            if (!user) {
-                const newUser = await User.create({
-                    email,
-                    password: bcript.hashSync(password, 8)
-                })
-                return newUser;
+            if (user) {
+                return {error: "Usuário já cadastrado", status: 400}
             } else {
-                return {error: "Usuário já cadastrado"}
+                return {status: 200}
             }
         } catch (error){
             return {message: error, status: 400}
         }
     },
+
     async login(email, password){
         const userExists = await User.findOne({email});
         if (!userExists){ 
