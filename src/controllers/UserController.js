@@ -7,15 +7,22 @@ require("dotenv").config();
 module.exports = {
     async createUser(name, email, password, average_consumption, fuel_per_liter){
         try{
-            const user = await User.create({
-                name,
-                email,
-                password: bcript.hashSync(password, 8),
-                average_consumption,
-                fuel_per_liter
-            })
-            
-            return {user, status: 200};
+            const findUser = await User.findOne({email});
+            if (findUser) {
+                return {error: "Email já cadastrado"}
+            } else { 
+                const user = await User.create({
+                    name,
+                    email,
+                    password: bcript.hashSync(password, 8),
+                    average_consumption,
+                    fuel_per_liter
+                })
+                const token = jwt.sign({id: user.id}, config.secret, {
+                    expiresIn: 86400
+                })
+                return {token, status: 200};
+            }
 
         } catch (error){
             return {message: error, status: 400}
