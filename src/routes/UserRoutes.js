@@ -6,6 +6,7 @@ const UserModel = require("../models/User");
 
 // Controllers 
 const UserController = require("../controllers/UserController");
+const TripController = require("../controllers/TripController");
 
 // Middlewares 
 const UserAuth = require("../middleware/UserAuth");
@@ -35,6 +36,24 @@ router.post("/login", async (req, res)=>{
     return res.json( result )
 
 })
+
+router.get("/trips/get", UserAuth, async (req, res)=>{
+    const { user_id } = req;
+
+    const result = await TripController.getTrips(user_id);
+    // Pegar as trips apenas do usuário logado
+    return res.json( result )
+})
+
+router.post("/trips/create", UserAuth, async (req, res)=>{
+    const { title, driver, passangers, total_distance, data } = req.body;
+
+    const result = await TripController.createTrips(title, driver, passangers, total_distance, data);
+    // Pegar as trips apenas do usuário logado
+    return res.json( result )
+})
+
+
 
 router.get("/get", UserAuth, async (req, res)=>{
     const result = await UserModel.find();

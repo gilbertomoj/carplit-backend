@@ -23,7 +23,6 @@ const Trip = new Schema({
         type: Date,
         required: true
     }
-
 })
 
 module.exports = mongoose.model("trip", Trip);
