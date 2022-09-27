@@ -16,6 +16,7 @@ const Passenger = new Schema({
     address: {
         type: String,
         required: true,
+        default: ""
     },
     isOnDebt: {
         type: Boolean,

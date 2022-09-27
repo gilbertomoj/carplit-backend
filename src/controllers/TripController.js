@@ -7,19 +7,19 @@ const config = require("../config/auth");
 require("dotenv").config();
 
 module.exports = {
-    async getTrips(user_id){
+    async getTrips(user_id) {
         const trips = await Trips.findById(user_id).populate("passengers");
         return trips;
     },
 
-    async createTrips( title, driver, passangers, total_distance, data ){
+    async createTrips(title, driver, passangers, totalDistance, data) {
         const trip = await Trips.create({
             title,
             driver,
             passangers,
-            total_distance,
-            data
-        })
+            totalDistance,
+            data,
+        });
         return trip;
-    }
-}
+    },
+};

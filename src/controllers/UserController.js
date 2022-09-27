@@ -85,7 +85,7 @@ module.exports = {
             return {message: error, status: 400}
         }
     },
-    async deleteUser( id) {
+    async deleteUser(id) {
         try{
             const DeletedUser = await User.deleteOne({where:{id}});
             return DeletedUser;

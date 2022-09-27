@@ -1,28 +1,30 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const Trip = new Schema({
     title: {
         type: String,
-        required: true
+        required: true,
     },
     driver: {
         type: Schema.Types.ObjectId,
-        ref: 'usuario',
-        required: true
+        ref: "usuario",
+        required: true,
     },
-    passengers:[{
+    passengers: [
+        {
             type: Schema.Types.ObjectId,
-            ref: "passenger"
-    }],
-    total_distance:{
+            ref: "passenger",
+        },
+    ],
+    totalDistance: {
         type: Number,
-        required: true
+        required: true,
     },
     data: {
         type: Date,
-        required: true
-    }
-})
+        required: true,
+    },
+});
 
 module.exports = mongoose.model("trip", Trip);
