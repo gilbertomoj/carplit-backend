@@ -4,7 +4,6 @@ const { promisify } = require("util");
 
 module.exports = async (req, res, next) => {
   const auth = req.headers.authorization;
-  // const auth = req.headers['x-access-token'];
   
   if (!auth) {
     return res.status(401).json({
