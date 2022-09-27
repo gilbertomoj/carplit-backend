@@ -5,9 +5,10 @@ const config = require("../config/auth");
 require("dotenv").config();
 
 module.exports = {
-    async createUser(email, password, average_consumption, fuel_per_liter){
+    async createUser(name, email, password, average_consumption, fuel_per_liter){
         try{
             const user = await User.create({
+                name,
                 email,
                 password: bcript.hashSync(password, 8),
                 average_consumption,
@@ -20,7 +21,6 @@ module.exports = {
             return {message: error, status: 400}
         }
     },
-
     async verifyEmail(email){
         try{
             const user = await User.findOne({email});
@@ -33,7 +33,6 @@ module.exports = {
             return {message: error, status: 400}
         }
     },
-
     async login(email, password){
         const userExists = await User.findOne({email});
         if (!userExists){ 
@@ -60,7 +59,6 @@ module.exports = {
             return {message: error, status: 400}
         }
     },
-
     async getOneUser(email){
         try{
             const User = await User.findOne({where:{email}});
@@ -69,7 +67,6 @@ module.exports = {
             return {message: error, status: 400}
         }
     },
-
     async updateUser(id){
         try{
             const UpdatedUser = await User.updateOne({where:{id}}, {$set:{
@@ -81,7 +78,6 @@ module.exports = {
             return {message: error, status: 400}
         }
     },
-
     async deleteUser( id) {
         try{
             const DeletedUser = await User.deleteOne({where:{id}});
