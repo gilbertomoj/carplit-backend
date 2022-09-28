@@ -33,8 +33,12 @@ Tecnologias utilizadas na realização do projeto:
 ## 💻 Executando aplicação localmente
 
 ```bash
-# Rodar o server localmente
-node src/server.js
+# Instalar o nodemon
+npm i nodemon
+```
+
+```bash
+yarn dev
 ```
 
 ## 🚨 Testes
