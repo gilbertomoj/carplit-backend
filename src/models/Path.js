@@ -12,6 +12,12 @@ const Path = new Schema({
         required: true,
         default: 0,
     },
+    driver: {
+        type: Schema.Types.ObjectId,
+        ref: "usuario",
+        required: true,
+        immutable: true,
+    },
 });
 
 module.exports = mongoose.model("path", Path);
