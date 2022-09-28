@@ -12,7 +12,7 @@ const UserAuth = require("../middleware/UserAuth");
 const Path = require("../models/Path");
 
 router.post("/create", UserAuth, async (req, res) => {
-    const { title, totalDistance } = req.body;
+    const { title, totalDistance, driver } = req.body;
 
     const result = await PathController.createPath(title, totalDistance);
 

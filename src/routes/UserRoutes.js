@@ -10,6 +10,7 @@ const TripController = require("../controllers/TripController");
 
 // Middlewares
 const UserAuth = require("../middleware/UserAuth");
+const PathController = require("../controllers/PathController");
 
 router.post("/verify/email", async (req, res) => {
     const { email } = req.body;
@@ -41,11 +42,17 @@ router.post("/login", async (req, res) => {
     return res.json(result);
 });
 
-router.post("/trips/create", UserAuth, async (req, res)=>{
+router.post("/trips/create", UserAuth, async (req, res) => {
     const { title, driver, passengers, total_distance, data } = req.body;
-    const result = await TripController.createTrips(title, driver, passengers, total_distance, data);
+    const result = await TripController.createTrips(
+        title,
+        driver,
+        passengers,
+        total_distance,
+        data
+    );
     // Pegar as trips apenas do usuário logado
-    return res.json( result );
+    return res.json(result);
 });
 
 router.get("/trips/get", UserAuth, async (req, res) => {
@@ -70,6 +77,14 @@ router.post("/trips/create", UserAuth, async (req, res) => {
     return res.json(result);
 });
 
+router.get("/paths/get", UserAuth, async (req, res) => {
+    const { user_id } = req;
+
+    const result = await PathController.getUserPaths(user_id);
+    // Pegar as trips apenas do usuário logado
+    return res.json(result);
+});
+
 router.get("/get", UserAuth, async (req, res) => {
     const result = await UserModel.find();
     return res.json(result);
@@ -81,15 +96,13 @@ router.get("/users/get/:nome", UserAuth, async (req, res) => {
     res.send(User);
 });
 
-
-router.put("/update/:id", UserAuth, async (req,res)=>{
-    const id = req.params.id
+router.put("/update/:id", UserAuth, async (req, res) => {
+    const id = req.params.id;
     const obj = req.body;
     const result = await UserController.updateUser(id, obj);
-    
-    return res.json( result )
-})
 
+    return res.json(result);
+});
 
 router.delete("/users/delete/:nome", UserAuth, async (req, res) => {
     //
