@@ -3,13 +3,13 @@ const router = express.Router();
 const bcript = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// Models 
-const PassengerModel = require("../models/Passenger");    
+// Models
+const PassengerModel = require("../models/Passenger");
 
-// Controllers 
+// Controllers
 const PassengerController = require("../controllers/PassengerController");
 
-// Middlewares 
+// Middlewares
 const UserAuth = require("../middleware/UserAuth");
 
 router.post("/create", UserAuth, async (req, res) => {
@@ -17,6 +17,6 @@ router.post("/create", UserAuth, async (req, res) => {
 
     const result = await PassengerController.createPassenger(name, address);
 
-    return res.json( result )
-})
+    return res.json(result);
+});
 module.exports = router;
