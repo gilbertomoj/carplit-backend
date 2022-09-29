@@ -19,6 +19,7 @@ const Path = require("../models/Path");
 router.get("/list", UserAuth, async (req, res) => {
     /*  
         #swagger.tags = ['Trip']
+        #swagger.summary = 'list user trips'
         #swagger.description = 'Endpoint to list user trips'
         #swagger.path = "trip/list"
     */
