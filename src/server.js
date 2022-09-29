@@ -37,8 +37,8 @@ app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 router.all("/api");
 app.use("/user", userRoutes);
-app.use("", passengerRoutes);
-app.use("", pathRoutes);
+app.use("/", passengerRoutes);
+app.use("/", pathRoutes);
 
 app.listen(PORT, () => {
     console.log(`Rodando na porta ${PORT} 🚀`);
