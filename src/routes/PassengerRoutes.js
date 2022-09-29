@@ -12,7 +12,7 @@ const PassengerController = require("../controllers/PassengerController");
 // Middlewares
 const UserAuth = require("../middleware/UserAuth");
 
-router.post("/create", UserAuth, async (req, res) => {
+router.post("passenger/create", UserAuth, async (req, res) => {
     const { name, address } = req.body;
 
     const result = await PassengerController.createPassenger(name, address);

@@ -1,97 +1,124 @@
 {
-    "swagger": "2.0",
+    "openapi": "3.0.2",
     "info": {
-        "version": "1.0.0",
         "title": "Carplit REST API",
+        "version": "1.0.0",
         "description": "A REST API built with Express and MongoDB. This API provides a way to organize your carpools, paths, passengers and finances."
     },
-    "host": "localhost:8080",
-    "basePath": "/",
-    "schemes": ["http"],
+    "servers": [
+        {
+            "url": "http://localhost:8080",
+            "description": "Local server"
+        },
+        {
+            "url": "http://carplit-backend.herokuapp.com",
+            "description": "Main server"
+        }
+    ],
+    "tags": [
+        {
+            "name": "user",
+            "description": "Operations about user"
+        },
+        {
+            "name": "path",
+            "description": "Operations about path"
+        },
+        {
+            "name": "passenger",
+            "description": "Operations about passenger"
+        }
+    ],
     "paths": {
         "/verify/email": {
             "post": {
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "email": {
-                                    "example": "any"
-                                }
-                            }
-                        }
-                    }
-                ],
+                "summary": "Check if the given email for register exist on database",
+                "tags": ["user"],
+                "parameters": [],
                 "responses": {
                     "200": {
                         "description": "OK"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "example": "test@email.com"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
         "/register": {
             "post": {
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "name": {
-                                    "example": "any"
-                                },
-                                "email": {
-                                    "example": "any"
-                                },
-                                "password": {
-                                    "example": "any"
-                                },
-                                "average_consumption": {
-                                    "example": "any"
-                                },
-                                "fuel_per_liter": {
-                                    "example": "any"
-                                }
-                            }
-                        }
-                    }
-                ],
+                "summary": "Register user",
+                "tags": ["user"],
+                "parameters": [],
                 "responses": {
                     "200": {
                         "description": "OK"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "example": "Test"
+                                    },
+                                    "email": {
+                                        "example": "test@email.com"
+                                    },
+                                    "password": {
+                                        "example": "test@123"
+                                    },
+                                    "average_consumption": {
+                                        "example": "12.4"
+                                    },
+                                    "fuel_per_liter": {
+                                        "example": "5"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
         "/login": {
             "post": {
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "email": {
-                                    "example": "any"
-                                },
-                                "password": {
-                                    "example": "any"
-                                }
-                            }
-                        }
-                    }
-                ],
+                "summary": "Login user",
+                "tags": ["user"],
+                "parameters": [],
                 "responses": {
                     "200": {
                         "description": "OK"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "example": "test@email.com"
+                                    },
+                                    "password": {
+                                        "example": "test@123"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -103,30 +130,56 @@
                     {
                         "name": "authorization",
                         "in": "header",
-                        "type": "string"
-                    },
-                    {
-                        "name": "body",
-                        "in": "body",
                         "schema": {
-                            "type": "object",
-                            "properties": {
-                                "title": {
-                                    "example": "any"
-                                },
-                                "driver": {
-                                    "example": "any"
-                                },
-                                "passangers": {
-                                    "example": "any"
-                                },
-                                "totalDistance": {
-                                    "example": "any"
-                                },
-                                "data": {
-                                    "example": "any"
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "example": "any"
+                                    },
+                                    "driver": {
+                                        "example": "any"
+                                    },
+                                    "passangers": {
+                                        "example": "any"
+                                    },
+                                    "totalDistance": {
+                                        "example": "any"
+                                    },
+                                    "data": {
+                                        "example": "any"
+                                    }
                                 }
                             }
+                        }
+                    }
+                }
+            }
+        },
+        "/trips/get": {
+            "get": {
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -140,14 +193,16 @@
                 }
             }
         },
-        "/trips/get": {
+        "user/paths/get": {
             "get": {
                 "description": "",
                 "parameters": [
                     {
                         "name": "authorization",
                         "in": "header",
-                        "type": "string"
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -160,14 +215,16 @@
                 }
             }
         },
-        "/get": {
+        "users/get": {
             "get": {
                 "description": "",
                 "parameters": [
                     {
                         "name": "authorization",
                         "in": "header",
-                        "type": "string"
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -188,12 +245,16 @@
                         "name": "nome",
                         "in": "path",
                         "required": true,
-                        "type": "string"
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
                         "name": "authorization",
                         "in": "header",
-                        "type": "string"
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -206,7 +267,7 @@
                 }
             }
         },
-        "/update/{id}": {
+        "users/update/{id}": {
             "put": {
                 "description": "",
                 "parameters": [
@@ -214,26 +275,15 @@
                         "name": "id",
                         "in": "path",
                         "required": true,
-                        "type": "string"
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
                         "name": "authorization",
                         "in": "header",
-                        "type": "string"
-                    },
-                    {
-                        "name": "body",
-                        "in": "body",
                         "schema": {
-                            "type": "object",
-                            "properties": {
-                                "title": {
-                                    "example": "any"
-                                },
-                                "totalDistance": {
-                                    "example": "any"
-                                }
-                            }
+                            "type": "string"
                         }
                     }
                 ],
@@ -255,12 +305,16 @@
                         "name": "nome",
                         "in": "path",
                         "required": true,
-                        "type": "string"
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
                         "name": "authorization",
                         "in": "header",
-                        "type": "string"
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -270,28 +324,16 @@
                 }
             }
         },
-        "/create": {
-            "post": {
-                "description": "",
+        "path/get": {
+            "get": {
+                "summary": "List paths",
+                "tags": ["path"],
                 "parameters": [
                     {
                         "name": "authorization",
                         "in": "header",
-                        "type": "string"
-                    },
-                    {
-                        "name": "body",
-                        "in": "body",
                         "schema": {
-                            "type": "object",
-                            "properties": {
-                                "name": {
-                                    "example": "any"
-                                },
-                                "address": {
-                                    "example": "any"
-                                }
-                            }
+                            "type": "string"
                         }
                     }
                 ],
@@ -305,20 +347,68 @@
                 }
             }
         },
-        "/get/{id}": {
+        "path/create": {
+            "post": {
+                "summary": "Create path",
+                "tags": ["path"],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "example": "Home - Work"
+                                    },
+                                    "totalDistance": {
+                                        "example": "20"
+                                    },
+                                    "driver": {
+                                        "example": "any"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "path/get/{id}": {
             "get": {
-                "description": "",
+                "summary": "Retrieve path",
+                "tags": ["path"],
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
                         "required": true,
-                        "type": "string"
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
                         "name": "authorization",
                         "in": "header",
-                        "type": "string"
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -331,20 +421,25 @@
                 }
             }
         },
-        "/delete/{id}": {
-            "delete": {
-                "description": "",
+        "path/update/{id}": {
+            "put": {
+                "summary": "Update path",
+                "tags": ["path"],
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
                         "required": true,
-                        "type": "string"
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
                         "name": "authorization",
                         "in": "header",
-                        "type": "string"
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -353,6 +448,93 @@
                     },
                     "401": {
                         "description": "Unauthorized"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "example": "Home - Work Office"
+                                    },
+                                    "totalDistance": {
+                                        "example": "20"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "path/delete/{id}": {
+            "delete": {
+                "summary": "Delete path",
+                "tags": ["path"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "passenger/create": {
+            "post": {
+                "summary": "Create passenger",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "example": "Frodo Baggins"
+                                    },
+                                    "address": {
+                                        "example": "Shire"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

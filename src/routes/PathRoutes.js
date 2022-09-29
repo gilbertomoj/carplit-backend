@@ -11,7 +11,7 @@ const PathController = require("../controllers/PathController");
 const UserAuth = require("../middleware/UserAuth");
 const Path = require("../models/Path");
 
-router.post("/create", UserAuth, async (req, res) => {
+router.post("path/create", UserAuth, async (req, res) => {
     const { title, totalDistance, driver } = req.body;
 
     const result = await PathController.createPath(title, totalDistance);
@@ -19,19 +19,19 @@ router.post("/create", UserAuth, async (req, res) => {
     return res.json(result);
 });
 
-router.get("/get", UserAuth, async (req, res) => {
+router.get("path/get", UserAuth, async (req, res) => {
     const result = await PathController.getPaths();
     return res.json(result);
 });
 
-router.get("/get/:id", UserAuth, async (req, res) => {
+router.get("path/get/:id", UserAuth, async (req, res) => {
     const { path_id } = req;
 
     const Path = await PathController.getOnePath({ where: { path_id } });
     res.send(Path);
 });
 
-router.put("/update/:id", UserAuth, async (req, res) => {
+router.put("path/update/:id", UserAuth, async (req, res) => {
     const path_id = req.params.id;
     const { title, totalDistance } = req.body;
 
@@ -40,7 +40,7 @@ router.put("/update/:id", UserAuth, async (req, res) => {
     res.send(Path);
 });
 
-router.delete("/delete/:id", UserAuth, async (req, res) => {
+router.delete("path/delete/:id", UserAuth, async (req, res) => {
     const { path_id } = req;
 
     const Path = await PathController.deletePath({ where: { path_id } });

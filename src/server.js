@@ -2,9 +2,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
+require("dotenv").config();
+
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocs = require("../swagger.json");
-require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -29,12 +30,15 @@ const PathModel = require("./models/Path");
 const userRoutes = require("./routes/UserRoutes");
 const passengerRoutes = require("./routes/PassengerRoutes");
 const pathRoutes = require("./routes/PathRoutes");
+const router = require("./routes/UserRoutes");
 
 // Rotas
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+router.all("/api");
 app.use("/user", userRoutes);
-app.use("/passenger", passengerRoutes);
-app.use("/path", pathRoutes);
+app.use("", passengerRoutes);
+app.use("", pathRoutes);
 
 app.listen(PORT, () => {
     console.log(`Rodando na porta ${PORT} 🚀`);
