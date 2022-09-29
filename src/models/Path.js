@@ -12,11 +12,11 @@ const Path = new Schema({
         required: true,
         default: 0,
     },
-    driver: {
+    owner: {
         type: Schema.Types.ObjectId,
-        ref: "usuario",
+        ref: "user",
         required: true,
-        immutable: true,
+        hidden: true,
     },
 });
 

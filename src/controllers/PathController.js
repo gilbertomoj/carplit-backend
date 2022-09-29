@@ -5,12 +5,12 @@ const config = require("../config/auth");
 require("dotenv").config();
 
 module.exports = {
-    async createPath(title, totalDistance, driver) {
+    async createPath(title, totalDistance, owner) {
         try {
             const path = await Path.create({
                 title,
                 totalDistance,
-                driver,
+                owner,
             });
             return { path, status: 200 };
         } catch (error) {
@@ -45,10 +45,14 @@ module.exports = {
     },
     async updatePath(id, title, totalDistance) {
         try {
-            const UpdatedPath = await Path.findByIdAndUpdate(id, {
-                title,
-                totalDistance,
-            }, { new: true });
+            const UpdatedPath = await Path.findByIdAndUpdate(
+                id,
+                {
+                    title,
+                    totalDistance,
+                },
+                { new: true }
+            );
             return UpdatedPath;
         } catch (error) {
             return { message: error, status: 400 };
