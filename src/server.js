@@ -41,6 +41,7 @@ app.use("/path", pathRoutes);
 app.use("/trip", tripRoutes);
 
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
 app.listen(PORT, () => {
     console.log(`Rodando na porta ${PORT} 🚀`);
 });

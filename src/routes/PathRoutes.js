@@ -14,7 +14,6 @@ const PathController = require("../controllers/PathController");
 const UserAuth = require("../middleware/UserAuth");
 const Path = require("../models/Path");
 
-
 router.get("/list", UserAuth, async (req, res) => {
     /*  #swagger.tags = ['Path']
         #swagger.summary = 'list user paths'
@@ -23,6 +22,9 @@ router.get("/list", UserAuth, async (req, res) => {
     */
     const user = req.user_id;
     const result = await PathController.getUserPaths(user);
+
+    return res.json(result);
+});
 
 router.post("/create", UserAuth, async (req, res) => {
     /*  
@@ -68,6 +70,13 @@ router.get("/retrieve/:id", UserAuth, async (req, res) => {
         #swagger.summary = 'retrieve path'
         #swagger.description = 'Endpoint to retrieve a path'
         #swagger.path = "path/retrieve/{id}"*/
+
+    const user = req.user_id;
+    const path_id = req.params.id;
+    const result = await PathController.getOnePath(user, path_id);
+
+    return res.json(result);
+});
 
 router.put("/update/:id", UserAuth, async (req, res) => {
     /*  #swagger.tags = ['Path']
