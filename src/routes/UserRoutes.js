@@ -77,7 +77,7 @@ router.post("/trips/create", UserAuth, async (req, res) => {
     return res.json(result);
 });
 
-router.get("/paths/get", UserAuth, async (req, res) => {
+router.get("user/paths/get", UserAuth, async (req, res) => {
     const { user_id } = req;
 
     const result = await PathController.getUserPaths(user_id);
@@ -85,7 +85,7 @@ router.get("/paths/get", UserAuth, async (req, res) => {
     return res.json(result);
 });
 
-router.get("/get", UserAuth, async (req, res) => {
+router.get("users/get", UserAuth, async (req, res) => {
     const result = await UserModel.find();
     return res.json(result);
 });
@@ -96,7 +96,7 @@ router.get("/users/get/:nome", UserAuth, async (req, res) => {
     res.send(User);
 });
 
-router.put("/update/:id", UserAuth, async (req, res) => {
+router.put("users/update/:id", UserAuth, async (req, res) => {
     const id = req.params.id;
     const obj = req.body;
     const result = await UserController.updateUser(id, obj);
