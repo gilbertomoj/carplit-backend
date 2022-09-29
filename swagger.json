@@ -691,7 +691,7 @@
     "trip/admin/list": {
       "get": {
         "tags": [
-          "Trip"
+          "Admin"
         ],
         "summary": "list all trips",
         "description": "Endpoint to list alls trips",
