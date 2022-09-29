@@ -35,6 +35,7 @@ router.post("/create", UserAuth, async (req, res) => {
           }
     }
     */
+
     const owner = await UserModel.findOne({ _id: req.user_id });
 
     const { title, totalDistance } = req.body;
@@ -43,17 +44,23 @@ router.post("/create", UserAuth, async (req, res) => {
         totalDistance,
         owner._id
     );
-    console.log(result);
-    return res.json(result);
+    const formatedResult = {
+        title: result.path.title,
+        totalDistance: result.path.totalDistance,
+        owner: {
+            name: owner.name,
+            id: owner._id,
+        },
+    };
+    return res.json( formatedResult );
 });
 
 router.get("/get", UserAuth, async (req, res) => {
-    /*  
-    #swagger.tags = ['Path']
-    #swagger.description = 'Endpoint to get all paths'
-    #swagger.path = "path/get"*/
 
-    const result = await PathController.getPaths();
+    const user = req.user_id;
+
+    const result = await PathController.getUserPaths(user);
+
     return res.json(result);
 });
 
@@ -72,24 +79,24 @@ router.put("/update/:id", UserAuth, async (req, res) => {
     /*  #swagger.tags = ['Path']
         #swagger.description = 'Endpoint to update a path'
         #swagger.path = "path/update/:id"*/
-
+    const user = req.user_id;
     const path_id = req.params.id;
     const { title, totalDistance } = req.body;
+    const Path = await PathController.updatePath(user, path_id, title, totalDistance);
 
-    const Path = await PathController.updatePath(path_id, title, totalDistance);
-
-    res.send(Path);
+    return res.json( Path );
 });
 
 router.delete("/delete/:id", UserAuth, async (req, res) => {
     /*  #swagger.tags = ['Path']
         #swagger.description = 'Endpoint to delete a path'
         #swagger.path = "path/delete/:id"*/
+    const user = req.user_id;
+    const path_id = req.params.id;
 
-    const { path_id } = req;
+    const Path = await PathController.deletePath(user, path_id);
 
-    const Path = await PathController.deletePath({ where: { path_id } });
-    res.send(Path);
+    return res.json( Path );
 });
 
 module.exports = router;

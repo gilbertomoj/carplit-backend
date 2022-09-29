@@ -12,7 +12,7 @@ const TripController = require("../controllers/TripController");
 const UserAuth = require("../middleware/UserAuth");
 const PathController = require("../controllers/PathController");
 
-router.post("verify/email", async (req, res) => {
+router.post("/verify/email", async (req, res) => {
     /*  #swagger.tags = ['User']
         #swagger.description = 'Endpoint to verify if given email already exist.'
         #swagger.path = "user/verify/email"
