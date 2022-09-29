@@ -2,6 +2,7 @@ const Path = require("../models/Path");
 const bcript = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth");
+const permissions = require("../config/check_permission");
 require("dotenv").config();
 
 module.exports = {
@@ -49,8 +50,9 @@ module.exports = {
     async updatePath(user, id, title, totalDistance) {
         try {
             const path = await Path.findById(id);
-            if (user != path.owner) {
-                return { message: "Você não tem permissão para editar", status: 400 };
+            const permission = await permissions.checkPermission(user, path.owner, "Você não tem permissão para editar");
+            if (!permission.isValid) {
+                return { message: permission.message, status: 400 };
             } else {
                 const UpdatedPath = await Path.findByIdAndUpdate(
                     id,
@@ -70,8 +72,9 @@ module.exports = {
     async deletePath(user, id) {
         try {
             const path = await Path.findById(id);
-            if (user != path.owner) {
-                return { message: "Você não tem permissão para deletar", status: 400 };
+            const permission = await permissions.checkPermission(user, path.owner, "Você não tem permissão para deletar");
+            if (!permission.isValid) {
+                return { message: permission.message, status: 400 };
             } else {
                 const DeletedPath = await Path.findByIdAndDelete(id);
                 return { message: "Path deletado com sucesso", status: 200 };;
