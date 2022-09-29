@@ -55,7 +55,7 @@ router.get("/list", UserAuth, async (req, res) => {
 
 router.get("/admin/list", UserAuth, async (req, res) => {
     /*  
-        #swagger.tags = ['Trip']
+        #swagger.tags = ['Admin']
         #swagger.summary = 'list all trips'
         #swagger.description = 'Endpoint to list alls trips'
         #swagger.path = "trip/admin/list"
