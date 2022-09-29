@@ -5,57 +5,104 @@ const config = require("../config/auth");
 require("dotenv").config();
 
 module.exports = {
-    async createPassenger(name, address){
+    async createPassenger(name, address, owner) {
         try {
             const passenger = await Passenger.create({
                 name,
-                address
-            })
-            
-            return {passenger, status: 200};
+                address,
+                owner,
+            });
 
-        } catch (error){
-            return {message: error, status: 400}
+            return { passenger, status: 200 };
+        } catch (error) {
+            return { message: error, status: 400 };
         }
     },
 
-    async getPassengers(){
+    async getPassengers() {
+        // Rota para uso do admin !!!!!
         try {
             const Passengers = await Passenger.find();
             return Passengers;
-        } catch (error){
-            return {message: error, status: 400}
+        } catch (error) {
+            return { message: error, status: 400 };
         }
     },
 
-    async getOnePassenger(id){
+    async getUserPassengers(owner) {
         try {
-            const Passenger = await Passenger.findOne({where:{id}});
-            return Passenger;
-        } catch (error){
-            return {message: error, status: 400}
+            const passengers = await Passenger.find({ owner });
+            if (passengers.length === 0) {
+                return {
+                    message: "Você ainda não cadastrou caminhos.",
+                    status: 200,
+                };
+            }
+            return passengers;
+        } catch (error) {
+            return { message: error, status: 400 };
         }
     },
 
-    async updatePassenger(id){
+    async getOnePassenger(user, id) {
         try {
-            const name = "Nome da pessoa"
-            const UpdatedPassenger = await Passenger.updateOne({where:{id}}, {$set:{
-                name,
-                address,
-            }});
-            return UpdatedPassenger;
-        } catch (error){
-            return {message: error, status: 400}
+            const passenger = await Passenger.findOne({ where: { id } });
+            if (user != passenger.owner) {
+                return {
+                    message: "Você não tem permissão para ver",
+                    status: 400,
+                };
+            }
+            return passenger;
+        } catch (error) {
+            return { message: error, status: 400 };
+        }
+    },
+
+    async updatePassenger(user, id, name, address) {
+        try {
+            const passenger = await Passenger.findById(id);
+            if (user != passenger.owner) {
+                return {
+                    message: "Você não tem permissão para atualizar",
+                    status: 400,
+                };
+            } else {
+                const UpdatedPassenger = await Passenger.findByIdAndUpdate(
+                    id,
+                    {
+                        name,
+                        address,
+                    },
+                    { new: true }
+                );
+                return {
+                    message: "Passageiro atualizado com sucesso",
+                    status: 200,
+                };
+            }
+        } catch (error) {
+            return { message: error, status: 400 };
         }
     },
 
     async deletePassenger(id) {
         try {
-            const DeletedPassenger = await Passenger.deleteOne({where:{id}});
-            return DeletedPassenger;
-        } catch (error){
-            return {message: error, status: 400}
+            const passenger = await Passenger.findById(id);
+            if (user != passenger.owner) {
+                return {
+                    message: "Você não tem permissão para deletar",
+                    status: 400,
+                };
+            } else {
+                const DeletedPassenger = await Passenger.findByIdAndDelete(id);
+                return {
+                    message: "Passageiro deletado com sucesso",
+                    status: 200,
+                };
+            }
+        } catch (error) {
+            return { message: error, status: 400 };
         }
-    }
-}
+    },
+};

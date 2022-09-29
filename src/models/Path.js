@@ -5,17 +5,16 @@ const Path = new Schema({
     title: {
         type: String,
         required: true,
-        default: "(Sem Nome)",
     },
     totalDistance: {
         type: Number,
         required: true,
-        default: 0,
     },
-    driver: {
+    owner: {
         type: Schema.Types.ObjectId,
-        ref: "usuario",
+        ref: "user",
         required: true,
+        hidden: true,
         immutable: true,
     },
 });

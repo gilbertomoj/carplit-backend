@@ -24,16 +24,20 @@ const doc = {
     ],
     tags: [
         {
-            name: "user",
+            name: "User",
             description: "Operations about user",
         },
         {
-            name: "path",
+            name: "Path",
             description: "Operations about path",
         },
         {
-            name: "passenger",
+            name: "Passenger",
             description: "Operations about passenger",
+        },
+        {
+            name: "Trip",
+            description: "Operations about trip",
         },
     ],
 };
@@ -42,6 +46,7 @@ const endpointsFiles = [
     "src/routes/UserRoutes.js",
     "src/routes/PathRoutes.js",
     "src/routes/PassengerRoutes.js",
+    "src/routes/TripRoutes.js",
     // Adicionar caminho das futuras rotas
 ];
 

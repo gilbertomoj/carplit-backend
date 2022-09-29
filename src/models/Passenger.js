@@ -1,36 +1,36 @@
-const mongoose = require('mongoose');
-const User = require('./User');
+const mongoose = require("mongoose");
+const User = require("./User");
 const Schema = mongoose.Schema;
 
 const Passenger = new Schema({
-    isDriver:{
+    isDriver: {
         type: Boolean,
         required: true,
-        default: false
+        default: false,
     },
-    name:{
+    name: {
         type: String,
         required: true,
-        default: "Sem nome"
     },
     address: {
         type: String,
         required: true,
-        default: ""
     },
     isOnDebt: {
         type: Boolean,
-        default: false
+        default: false,
     },
     debt: {
         type: Number,
-        default: 0.0
+        default: 0.0,
     },
-    // createdBy: {
-    //     type: Object,
-    //     required: true,
-    //     hidden: true,
-    // }
-})
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: "user",
+        required: true,
+        hidden: true,
+        immutable: true,
+    },
+});
 
 module.exports = mongoose.model("passenger", Passenger);
