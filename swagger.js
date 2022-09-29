@@ -24,15 +24,15 @@ const doc = {
     ],
     tags: [
         {
-            name: "user",
+            name: "User",
             description: "Operations about user",
         },
         {
-            name: "path",
+            name: "Path",
             description: "Operations about path",
         },
         {
-            name: "passenger",
+            name: "Passenger",
             description: "Operations about passenger",
         },
     ],

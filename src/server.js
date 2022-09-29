@@ -30,15 +30,13 @@ const PathModel = require("./models/Path");
 const userRoutes = require("./routes/UserRoutes");
 const passengerRoutes = require("./routes/PassengerRoutes");
 const pathRoutes = require("./routes/PathRoutes");
-const router = require("./routes/UserRoutes");
 
 // Rotas
-app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-router.all("/api");
 app.use("/user", userRoutes);
-app.use("", passengerRoutes);
-app.use("", pathRoutes);
+app.use("/passenger", passengerRoutes);
+app.use("/path", pathRoutes);
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.listen(PORT, () => {
     console.log(`Rodando na porta ${PORT} 🚀`);

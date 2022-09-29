@@ -12,7 +12,24 @@ const TripController = require("../controllers/TripController");
 const UserAuth = require("../middleware/UserAuth");
 const PathController = require("../controllers/PathController");
 
-router.post("/verify/email", async (req, res) => {
+router.post("verify/email", async (req, res) => {
+    /*  #swagger.tags = ['User']
+        #swagger.description = 'Endpoint to verify if given email already exist.'
+        #swagger.path = "user/verify/email"
+        #swagger.requestBody = {
+        "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "example": "test@carplit.com"
+                  }
+                }
+              }
+            }
+          }
+    }*/
     const { email } = req.body;
 
     const result = await UserController.verifyEmail(email);
@@ -21,6 +38,9 @@ router.post("/verify/email", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
+    /*  #swagger.tags = ['User']
+        #swagger.description = 'Endpoint to register a user' 
+        #swagger.path = "user/register"*/
     const { name, email, password, average_consumption, fuel_per_liter } =
         req.body;
 
@@ -36,6 +56,9 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
+    /*  #swagger.tags = ['User']
+        #swagger.description = 'Endpoint to login'
+        #swagger.path = "user/login"*/
     const { email, password } = req.body;
 
     const result = await UserController.login(email, password);
@@ -85,7 +108,12 @@ router.get("user/paths/get", UserAuth, async (req, res) => {
     return res.json(result);
 });
 
-router.get("users/get", UserAuth, async (req, res) => {
+router.get("/get", UserAuth, async (req, res) => {
+    /*  
+    #swagger.tags = ['User']
+    #swagger.description = 'Endpoint to get all users'
+    #swagger.path = "user/get"
+    */
     const result = await UserModel.find();
     return res.json(result);
 });
@@ -93,6 +121,12 @@ router.get("users/get", UserAuth, async (req, res) => {
 router.get("/users/get/:nome", UserAuth, async (req, res) => {
     const nome = req.params.nome;
     const User = await UserModel.findOne({ where: { nome } });
+    res.send(User);
+});
+
+router.get("/users/get/:id", UserAuth, async (req, res) => {
+    const id = req.params.id;
+    const User = await UserModel.findOne({ where: { id } });
     res.send(User);
 });
 
