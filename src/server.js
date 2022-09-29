@@ -25,17 +25,23 @@ mongoose.connect(process.env.DATABASE_URL, {
 const UserModel = require("./models/User");
 const PassengerModel = require("./models/Passenger");
 const PathModel = require("./models/Path");
+const TripModel = require("./models/Trip");
 
 // Inicialização das rotas
 const userRoutes = require("./routes/UserRoutes");
 const passengerRoutes = require("./routes/PassengerRoutes");
 const pathRoutes = require("./routes/PathRoutes");
+const tripRoutes = require("./routes/TripRoutes");
 
 // Rotas
 
 app.use("/user", userRoutes);
 app.use("/passenger", passengerRoutes);
 app.use("/path", pathRoutes);
+app.use("/trip", tripRoutes);
+
+// app.use("/trip", tripRoutes);
+
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.listen(PORT, () => {

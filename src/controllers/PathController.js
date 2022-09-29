@@ -28,19 +28,32 @@ module.exports = {
             return { message: error, status: 400 };
         }
     },
+
     async getUserPaths(owner) {
         try {
-            const paths = await Path.find({owner});
+            const paths = await Path.find({ owner });
+            if (paths.length === 0) {
+                return {
+                    message: "Você ainda não cadastrou passageiros.",
+                    status: 200,
+                };
+            }
             return paths;
         } catch (error) {
             return { message: error, status: 400 };
         }
     },
 
-    async getOnePath(id) {
+    async getOnePath(user, id) {
         try {
-            const Path = await Path.findOne({ where: { id } });
-            return Path;
+            const path = await Path.findOne({ where: { id } });
+            if (user != path.owner) {
+                return {
+                    message: "Você não tem permissão para ver",
+                    status: 400,
+                };
+            }
+            return path;
         } catch (error) {
             return { message: error, status: 400 };
         }
@@ -50,7 +63,10 @@ module.exports = {
         try {
             const path = await Path.findById(id);
             if (user != path.owner) {
-                return { message: "Você não tem permissão para editar", status: 400 };
+                return {
+                    message: "Você não tem permissão para editar",
+                    status: 400,
+                };
             } else {
                 const UpdatedPath = await Path.findByIdAndUpdate(
                     id,
@@ -60,7 +76,10 @@ module.exports = {
                     },
                     { new: true }
                 );
-                return UpdatedPath;
+                return {
+                    message: "Caminho atualizado com sucesso",
+                    status: 200,
+                };
             }
         } catch (error) {
             return { message: error, status: 400 };
@@ -71,10 +90,13 @@ module.exports = {
         try {
             const path = await Path.findById(id);
             if (user != path.owner) {
-                return { message: "Você não tem permissão para deletar", status: 400 };
+                return {
+                    message: "Você não tem permissão para deletar",
+                    status: 400,
+                };
             } else {
                 const DeletedPath = await Path.findByIdAndDelete(id);
-                return { message: "Path deletado com sucesso", status: 200 };;
+                return { message: "Path deletado com sucesso", status: 200 };
             }
         } catch (error) {
             return { message: error, status: 400 };

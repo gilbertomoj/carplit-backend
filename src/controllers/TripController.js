@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const Trips = require("../models/Trips");
+const Trip = require("../models/Trip");
 
 const bcript = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -7,21 +7,34 @@ const config = require("../config/auth");
 require("dotenv").config();
 
 module.exports = {
-
     async getTrips(user_id) {
-        const trips = await Trips.findById(user_id).populate("passengers");
+        const trips = await Trip.findById(user_id).populate("passengers");
         return trips;
     },
 
-    async createTrips(title, driver, passangers, totalDistance, data) {
-        const trip = await Trips.create({
+    async createTrip(title, owner, passangers, totalDistance, data) {
+        const trip = await Trip.create({
             title,
-            driver,
+            owner,
             passangers,
             totalDistance,
             data,
         });
         return trip;
     },
-};
 
+    async getUserTips(owner) {
+        try {
+            const trips = await Trip.find({ owner });
+            if (trips.length === 0) {
+                return {
+                    message: "Você ainda não registrou caronas.",
+                    status: 200,
+                };
+            }
+            return trips;
+        } catch (error) {
+            return { message: error, status: 400 };
+        }
+    },
+};

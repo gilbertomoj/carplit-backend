@@ -27,14 +27,45 @@
     {
       "name": "Passenger",
       "description": "Operations about passenger"
+    },
+    {
+      "name": "Trip",
+      "description": "Operations about trip"
     }
   ],
   "paths": {
+    "user/list": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "list all users",
+        "description": "Endpoint to list all users",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "user/verify/email": {
       "post": {
         "tags": [
           "User"
         ],
+        "summary": "verify email",
         "description": "Endpoint to verify if given email already exist.",
         "parameters": [],
         "responses": {
@@ -49,7 +80,7 @@
                 "type": "object",
                 "properties": {
                   "email": {
-                    "example": "test@carplit.com"
+                    "example": "user@carplit.com"
                   }
                 }
               }
@@ -63,6 +94,7 @@
         "tags": [
           "User"
         ],
+        "summary": "register user",
         "description": "Endpoint to register a user",
         "parameters": [],
         "responses": {
@@ -77,19 +109,19 @@
                 "type": "object",
                 "properties": {
                   "name": {
-                    "example": "any"
+                    "example": "Carlit"
                   },
                   "email": {
-                    "example": "any"
+                    "example": "user@carplit.com"
                   },
                   "password": {
-                    "example": "any"
+                    "example": "test@123"
                   },
                   "average_consumption": {
-                    "example": "any"
+                    "example": 2.5
                   },
                   "fuel_per_liter": {
-                    "example": "any"
+                    "example": 12
                   }
                 }
               }
@@ -103,6 +135,7 @@
         "tags": [
           "User"
         ],
+        "summary": "login user",
         "description": "Endpoint to login",
         "parameters": [],
         "responses": {
@@ -117,10 +150,10 @@
                 "type": "object",
                 "properties": {
                   "email": {
-                    "example": "any"
+                    "example": "user@carplit.com"
                   },
                   "password": {
-                    "example": "any"
+                    "example": "test@123"
                   }
                 }
               }
@@ -129,156 +162,13 @@
         }
       }
     },
-    "/trips/create": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "title": {
-                    "example": "any"
-                  },
-                  "driver": {
-                    "example": "any"
-                  },
-                  "passangers": {
-                    "example": "any"
-                  },
-                  "totalDistance": {
-                    "example": "any"
-                  },
-                  "data": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/trips/get": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "user/paths/get": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "user/get": {
+    "user/retrieve/{id}": {
       "get": {
         "tags": [
           "User"
         ],
-        "description": "Endpoint to get all users",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/users/get/{nome}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "nome",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/users/get/{id}": {
-      "get": {
-        "description": "",
+        "summary": "retrieve user",
+        "description": "Endpoint to retrieve user",
         "parameters": [
           {
             "name": "id",
@@ -306,9 +196,13 @@
         }
       }
     },
-    "users/update/{id}": {
+    "user/update/{id}": {
       "put": {
-        "description": "",
+        "tags": [
+          "User"
+        ],
+        "summary": "update user",
+        "description": "Endpoint to update user",
         "parameters": [
           {
             "name": "id",
@@ -336,18 +230,14 @@
         }
       }
     },
-    "/users/delete/{nome}": {
-      "delete": {
-        "description": "",
+    "path/list": {
+      "get": {
+        "tags": [
+          "Path"
+        ],
+        "summary": "list user paths",
+        "description": "Endpoint to list user paths",
         "parameters": [
-          {
-            "name": "nome",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "authorization",
             "in": "header",
@@ -357,6 +247,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK"
+          },
           "401": {
             "description": "Unauthorized"
           }
@@ -368,6 +261,7 @@
         "tags": [
           "Path"
         ],
+        "summary": "register path",
         "description": "Endpoint to register a path",
         "parameters": [
           {
@@ -405,39 +299,23 @@
         }
       }
     },
-    "path/get": {
+    "path/retrieve/{id}": {
       "get": {
         "tags": [
           "Path"
         ],
-        "description": "Endpoint to get all paths",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "path/get/:id": {
-      "get": {
-        "tags": [
-          "Path"
-        ],
+        "summary": "retrieve path",
         "description": "Endpoint to retrieve a path",
         "parameters": [
           {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "authorization",
             "in": "header",
             "schema": {
@@ -455,13 +333,22 @@
         }
       }
     },
-    "path/update/:id": {
+    "path/update/{id}": {
       "put": {
         "tags": [
           "Path"
         ],
+        "summary": "update path",
         "description": "Endpoint to update a path",
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -497,12 +384,47 @@
         }
       }
     },
-    "path/delete/:id": {
+    "path/delete/{id}": {
       "delete": {
         "tags": [
           "Path"
         ],
+        "summary": "delete path",
         "description": "Endpoint to delete a path",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "passenger/get": {
+      "get": {
+        "tags": [
+          "Passenger"
+        ],
+        "summary": "list user passenger",
+        "description": "Endpoint to list user passengers",
         "parameters": [
           {
             "name": "authorization",
@@ -527,8 +449,94 @@
         "tags": [
           "Passenger"
         ],
+        "summary": "register passenger",
         "description": "Endpoint to create a passenger",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "example": "Frodo Baggins"
+                  },
+                  "address": {
+                    "example": "Shire, 13"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "passenger/retrieve/{id}": {
+      "get": {
+        "tags": [
+          "Passenger"
+        ],
+        "summary": "retrieve passenger",
+        "description": "Endpoint to list user passengers",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "passenger/update/{id}": {
+      "put": {
+        "tags": [
+          "Passenger"
+        ],
+        "summary": "update passenger",
+        "description": "Endpoint to update a passenger",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -560,6 +568,65 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "passenger/delete/{id}": {
+      "delete": {
+        "tags": [
+          "Passenger"
+        ],
+        "summary": "delete passenger",
+        "description": "Endpoint to delete a passenger",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "trip/list": {
+      "get": {
+        "tags": [
+          "Trip"
+        ],
+        "description": "Endpoint to list user trips",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }

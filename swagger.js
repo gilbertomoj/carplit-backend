@@ -35,6 +35,10 @@ const doc = {
             name: "Passenger",
             description: "Operations about passenger",
         },
+        {
+            name: "Trip",
+            description: "Operations about trip",
+        },
     ],
 };
 const outputFile = "./swagger.json";
@@ -42,6 +46,7 @@ const endpointsFiles = [
     "src/routes/UserRoutes.js",
     "src/routes/PathRoutes.js",
     "src/routes/PassengerRoutes.js",
+    "src/routes/TripRoutes.js",
     // Adicionar caminho das futuras rotas
 ];
 
