@@ -15,7 +15,7 @@ const PathController = require("../controllers/PathController");
 router.get("/list", UserAuth, async (req, res) => {
     // ADMIN ROOT
     /*
-    #swagger.tags = ['User']
+    #swagger.tags = ['Admin']
     #swagger.summary = 'list all users'
     #swagger.description = 'Endpoint to list all users'
     #swagger.path = "user/list"

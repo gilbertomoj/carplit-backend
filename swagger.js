@@ -39,6 +39,10 @@ const doc = {
             name: "Trip",
             description: "Operations about trip",
         },
+        {
+            name: "Admin",
+            description: "Admin operations",
+        },
     ],
 };
 const outputFile = "./swagger.json";

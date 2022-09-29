@@ -31,13 +31,17 @@
     {
       "name": "Trip",
       "description": "Operations about trip"
+    },
+    {
+      "name": "Admin",
+      "description": "Admin operations"
     }
   ],
   "paths": {
     "user/list": {
       "get": {
         "tags": [
-          "User"
+          "Admin"
         ],
         "summary": "list all users",
         "description": "Endpoint to list all users",
