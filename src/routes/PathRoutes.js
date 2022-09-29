@@ -110,4 +110,15 @@ router.delete("/delete/:id", UserAuth, async (req, res) => {
     return res.json(Path);
 });
 
+router.get("/admin/list", UserAuth, async (req, res) => {
+    /*  #swagger.tags = ['Admin']
+        #swagger.summary = 'list all paths'
+        #swagger.description = 'Endpoint to list all paths'
+        #swagger.path = "path/admin/list"
+    */
+    const result = await PathController.getPaths();
+
+    return res.json(result);
+});
+
 module.exports = router;

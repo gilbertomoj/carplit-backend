@@ -12,18 +12,6 @@ const TripController = require("../controllers/TripController");
 const UserAuth = require("../middleware/UserAuth");
 const PathController = require("../controllers/PathController");
 
-router.get("/list", UserAuth, async (req, res) => {
-    // ADMIN ROOT
-    /*
-    #swagger.tags = ['Admin']
-    #swagger.summary = 'list all users'
-    #swagger.description = 'Endpoint to list all users'
-    #swagger.path = "user/list"
-    */
-    const result = await UserModel.find();
-    return res.json(result);
-});
-
 router.post("/verify/email", async (req, res) => {
     /*  #swagger.tags = ['User']
         #swagger.summary = 'verify email'
@@ -211,5 +199,16 @@ router.put("/update/:id", UserAuth, async (req, res) => {
 //     #swagger.path = "user/delete/{id}"
 //     */
 // });
+
+router.get("/admin/list", UserAuth, async (req, res) => {
+    /*
+  #swagger.tags = ['Admin']
+  #swagger.summary = 'list all users'
+  #swagger.description = 'Endpoint to list all users'
+  #swagger.path = "user/admin/list"
+  */
+    const result = await UserController.getUsers();
+    return res.json(result);
+});
 
 module.exports = router;

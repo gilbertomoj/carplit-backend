@@ -17,7 +17,7 @@ router.get("/list", UserAuth, async (req, res) => {
     /*  #swagger.tags = ['Passenger']
         #swagger.summary = 'list user passenger'
         #swagger.description = 'Endpoint to list user passengers'
-        #swagger.path = "passenger/get"
+        #swagger.path = "passenger/list"
     */
 
     const user = req.user_id;
@@ -115,6 +115,17 @@ router.delete("/delete/:id", UserAuth, async (req, res) => {
     });
 
     res.send(Passenger);
+});
+
+router.get("/admin/list", UserAuth, async (req, res) => {
+    /*  #swagger.tags = ['Admin']
+        #swagger.summary = 'list all passengers'
+        #swagger.description = 'Endpoint to list all passengers'
+        #swagger.path = "passenger/admin/list"
+    */
+    const result = await PassengerController.getPassengers();
+
+    return res.json(result);
 });
 
 module.exports = router;

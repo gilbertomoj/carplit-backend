@@ -38,32 +38,6 @@
     }
   ],
   "paths": {
-    "user/list": {
-      "get": {
-        "tags": [
-          "Admin"
-        ],
-        "summary": "list all users",
-        "description": "Endpoint to list all users",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
     "user/verify/email": {
       "post": {
         "tags": [
@@ -216,6 +190,32 @@
               "type": "string"
             }
           },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "user/admin/list": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "list all users",
+        "description": "Endpoint to list all users",
+        "parameters": [
           {
             "name": "authorization",
             "in": "header",
@@ -422,7 +422,33 @@
         }
       }
     },
-    "passenger/get": {
+    "path/admin/list": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "list all paths",
+        "description": "Endpoint to list all paths",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "passenger/list": {
       "get": {
         "tags": [
           "Passenger"
@@ -610,6 +636,32 @@
         }
       }
     },
+    "passenger/admin/list": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "list all passengers",
+        "description": "Endpoint to list all passengers",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "trip/list": {
       "get": {
         "tags": [
@@ -617,6 +669,32 @@
         ],
         "summary": "list user trips",
         "description": "Endpoint to list user trips",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "trip/admin/list": {
+      "get": {
+        "tags": [
+          "Trip"
+        ],
+        "summary": "list all trips",
+        "description": "Endpoint to list alls trips",
         "parameters": [
           {
             "name": "authorization",

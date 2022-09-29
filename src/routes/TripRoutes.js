@@ -53,4 +53,17 @@ router.get("/list", UserAuth, async (req, res) => {
 //     return res.json(result);
 // });
 
+router.get("/admin/list", UserAuth, async (req, res) => {
+    /*  
+        #swagger.tags = ['Trip']
+        #swagger.summary = 'list all trips'
+        #swagger.description = 'Endpoint to list alls trips'
+        #swagger.path = "trip/admin/list"
+    */
+
+    const result = await TripController.getTrips();
+
+    return res.json(result);
+});
+
 module.exports = router;
