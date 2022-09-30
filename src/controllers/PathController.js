@@ -33,12 +33,6 @@ module.exports = {
     async getUserPaths(owner) {
         try {
             const paths = await Path.find({ owner });
-            if (paths.length === 0) {
-                return {
-                    message: "Você ainda não cadastrou passageiros.",
-                    status: 200,
-                };
-            }
             return paths;
         } catch (error) {
             return { message: error, status: 400 };
@@ -63,7 +57,11 @@ module.exports = {
     async updatePath(user, id, title, totalDistance) {
         try {
             const path = await Path.findById(id);
-            const permission = await permissions.checkPermission(user, path.owner, "Você não tem permissão para editar");
+            const permission = await permissions.checkPermission(
+                user,
+                path.owner,
+                "Você não tem permissão para editar"
+            );
             if (!permission.isValid) {
                 return { message: permission.message, status: 400 };
             } else {
@@ -88,9 +86,16 @@ module.exports = {
     async deletePath(user, id) {
         try {
             const path = await Path.findById(id);
-            const permission = await permissions.checkPermission(user, path.owner, "Você não tem permissão para deletar!");
+            const permission = await permissions.checkPermission(
+                user,
+                path.owner,
+                "Você não tem permissão para deletar!"
+            );
             if (!permission.isValid) {
-                return { message: permission.message, status: permission.status };
+                return {
+                    message: permission.message,
+                    status: permission.status,
+                };
             } else {
                 const DeletedPath = await Path.findByIdAndDelete(id);
                 return { message: "Path deletado com sucesso", status: 200 };

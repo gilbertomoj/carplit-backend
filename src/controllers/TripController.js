@@ -26,12 +26,6 @@ module.exports = {
     async getUserTips(owner) {
         try {
             const trips = await Trip.find({ owner });
-            if (trips.length === 0) {
-                return {
-                    message: "Você ainda não registrou caronas.",
-                    status: 200,
-                };
-            }
             return trips;
         } catch (error) {
             return { message: error, status: 400 };
