@@ -23,7 +23,8 @@ router.get("/list", UserAuth, async (req, res) => {
     const user = req.user_id;
     const result = await PathController.getUserPaths(user);
 
-    return res.json(result);
+    return res.status(result.status).json(result.paths);
+    
 });
 
 router.post("/create", UserAuth, async (req, res) => {
@@ -62,7 +63,7 @@ router.post("/create", UserAuth, async (req, res) => {
             id: owner._id,
         },
     };
-    return res.json(formatedResult);
+    return res.status(result.status).json( formatedResult );
 });
 
 router.get("/retrieve/:id", UserAuth, async (req, res) => {
@@ -74,8 +75,7 @@ router.get("/retrieve/:id", UserAuth, async (req, res) => {
     const user = req.user_id;
     const path_id = req.params.id;
     const result = await PathController.getOnePath(user, path_id);
-
-    return res.json(result);
+    return res.status(result.status).json(result.path);
 });
 
 router.put("/update/:id", UserAuth, async (req, res) => {

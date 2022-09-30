@@ -23,8 +23,8 @@ module.exports = {
     async getPaths() {
         // Rota para uso do admin !!!!!
         try {
-            const Paths = await Path.find();
-            return Paths;
+            const paths = await Path.find();
+            return {paths, status: 200};
         } catch (error) {
             return { message: error, status: 400 };
         }
@@ -33,7 +33,14 @@ module.exports = {
     async getUserPaths(owner) {
         try {
             const paths = await Path.find({ owner });
-            return paths;
+            if (paths.length === 0) {
+                return {
+                    message: "Você ainda não cadastrou passageiros.",
+                    status: 200,
+                };
+            } else {
+                return { paths, status: 200 };
+            }
         } catch (error) {
             return { message: error, status: 400 };
         }
@@ -48,7 +55,7 @@ module.exports = {
                     status: 400,
                 };
             }
-            return path;
+            return {path, status: 200};
         } catch (error) {
             return { message: error, status: 400 };
         }
