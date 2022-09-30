@@ -55,14 +55,14 @@ router.post("/create", UserAuth, async (req, res) => {
     const owner = await UserModel.findOne({ _id: req.user_id });
     const { title, totalDistance } = req.body;
     const result = await PathController.createPath(title, totalDistance, owner);
-    const formatedResult = {
-        title: result.path.title,
-        totalDistance: result.path.totalDistance,
-        owner: {
-            name: owner.name,
-            id: owner._id,
-        },
-    };
+    // const formatedResult = {
+    //     title: result.path.title,
+    //     totalDistance: result.path.totalDistance,
+    //     owner: {
+    //         name: owner.name,
+    //         id: owner._id,
+    //     },
+    // };
     return res.status(result.status).json( formatedResult );
 });
 
