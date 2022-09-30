@@ -74,7 +74,7 @@ module.exports = {
             const path = await Path.findById(id);
             const permission = await permissions.checkPermission(user, path.owner, "Você não tem permissão para deletar");
             if (!permission.isValid) {
-                return { message: permission.message, status: 400 };
+                return { message: permission.message, status: permission.status };
             } else {
                 const DeletedPath = await Path.findByIdAndDelete(id);
                 return { message: "Path deletado com sucesso", status: 200 };;

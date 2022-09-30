@@ -83,8 +83,8 @@ router.put("/update/:id", UserAuth, async (req, res) => {
     const path_id = req.params.id;
     const { title, totalDistance } = req.body;
     const Path = await PathController.updatePath(user, path_id, title, totalDistance);
-
-    return res.json( Path );
+    console.log("sadas")
+    return res.status(403).json( Path );
 });
 
 router.delete("/delete/:id", UserAuth, async (req, res) => {
@@ -96,7 +96,7 @@ router.delete("/delete/:id", UserAuth, async (req, res) => {
 
     const Path = await PathController.deletePath(user, path_id);
 
-    return res.json( Path );
+    return res.status(Path.status).json( Path );
 });
 
 module.exports = router;
