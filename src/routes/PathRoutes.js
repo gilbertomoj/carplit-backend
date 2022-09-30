@@ -24,7 +24,6 @@ router.get("/list", UserAuth, async (req, res) => {
     const result = await PathController.getUserPaths(user);
 
     return res.status(result.status).json(result.paths);
-    
 });
 
 router.post("/create", UserAuth, async (req, res) => {
@@ -63,7 +62,7 @@ router.post("/create", UserAuth, async (req, res) => {
     //         id: owner._id,
     //     },
     // };
-    return res.status(result.status).json( result );
+    return res.status(result.status).json(result);
 });
 
 router.get("/retrieve/:id", UserAuth, async (req, res) => {
@@ -75,6 +74,7 @@ router.get("/retrieve/:id", UserAuth, async (req, res) => {
     const user = req.user_id;
     const path_id = req.params.id;
     const result = await PathController.getOnePath(user, path_id);
+
     return res.status(result.status).json(result.path);
 });
 
@@ -87,14 +87,15 @@ router.put("/update/:id", UserAuth, async (req, res) => {
     const user = req.user_id;
     const path_id = req.params.id;
     const { title, totalDistance } = req.body;
-    const Path = await PathController.updatePath(
+
+    const result = await PathController.updatePath(
         user,
         path_id,
         title,
         totalDistance
     );
 
-    return res.json(Path);
+    return res.status(result.status).json(result.updatedPath);
 });
 
 router.delete("/delete/:id", UserAuth, async (req, res) => {
@@ -105,9 +106,9 @@ router.delete("/delete/:id", UserAuth, async (req, res) => {
     const user = req.user_id;
     const path_id = req.params.id;
 
-    const Path = await PathController.deletePath(user, path_id);
+    const result = await PathController.deletePath(user, path_id);
 
-    return res.json(Path);
+    return res.status(result.status).json(result.message);
 });
 
 router.get("/admin/list", UserAuth, async (req, res) => {
@@ -118,7 +119,7 @@ router.get("/admin/list", UserAuth, async (req, res) => {
     */
     const result = await PathController.getPaths();
 
-    return res.json(result);
+    return res.status(result.status).json(result.paths);
 });
 
 module.exports = router;

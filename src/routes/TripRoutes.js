@@ -27,7 +27,7 @@ router.get("/list", UserAuth, async (req, res) => {
     const user = req.user_id;
     const result = await TripController.getUserTips(user);
 
-    return res.json(result);
+    return res.status(result.status).json(result.trips);
 });
 
 // ROTA NAO FINALIZADA
@@ -63,7 +63,7 @@ router.get("/admin/list", UserAuth, async (req, res) => {
 
     const result = await TripController.getTrips();
 
-    return res.json(result);
+    return res.status(result.status).json(result.trips);
 });
 
 module.exports = router;
