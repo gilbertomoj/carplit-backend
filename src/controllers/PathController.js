@@ -88,7 +88,7 @@ module.exports = {
     async deletePath(user, id) {
         try {
             const path = await Path.findById(id);
-            const permission = await permissions.checkPermission(user, path.owner, "Você não tem permissão para deletar");
+            const permission = await permissions.checkPermission(user, path.owner, "Você não tem permissão para deletar!");
             if (!permission.isValid) {
                 return { message: permission.message, status: permission.status };
             } else {
