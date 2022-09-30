@@ -63,7 +63,7 @@ router.post("/create", UserAuth, async (req, res) => {
     //         id: owner._id,
     //     },
     // };
-    return res.status(result.status).json( formatedResult );
+    return res.status(result.status).json( result );
 });
 
 router.get("/retrieve/:id", UserAuth, async (req, res) => {
