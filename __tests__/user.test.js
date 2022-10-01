@@ -3,7 +3,7 @@ const ApiUrl = "http://localhost:8080";
 let token = "";
 const obj = {
     name: "Carplit",
-    email: "test@carplitest.com",
+    email: "Test@carplit.com",
     password: "test@123",
     average_consumption: 14,
     fuel_per_liter: 11.4,
@@ -31,7 +31,6 @@ describe("POST user/register", () => {
             .post("/user/register")
             .send(obj)
             .then((response) => {
-                console.log(response.body)
                 expect(response.body.status).toEqual(200);
             });
     });
@@ -73,7 +72,7 @@ describe("DELETE user/delete", ()=>{
             .set('Authorization', `Bearer ${token}`)
             .then((response)=>{
                 expect(response.status).toEqual(200);
-                expect(response.body.message).toEqual("Usuário deletado com sucesso");
+                expect(response.body).toEqual("Usuário deletado com sucesso");
             })
     })
 })

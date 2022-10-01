@@ -112,10 +112,11 @@ module.exports = {
 
     async deleteUser(id) {
         try {
-            const DeletedUser = await User.deleteOne({ where: { id } });
+            console.log(id);
+            const DeletedUser = await User.findByIdAndDelete(id);
             return {
                 DeletedUser,
-                message: "Usuario deletado com sucesso",
+                message: "Usuário deletado com sucesso",
                 status: 200,
             };
         } catch (error) {
