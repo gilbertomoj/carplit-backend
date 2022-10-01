@@ -73,7 +73,7 @@ describe("DELETE user/delete", ()=>{
             .set('Authorization', `Bearer ${token}`)
             .then((response)=>{
                 expect(response.status).toEqual(200);
-                expect(response.body).toEqual("Usuário deletado com sucesso");
+                expect(response.body.message).toEqual("Usuário deletado com sucesso");
             })
     })
 })
