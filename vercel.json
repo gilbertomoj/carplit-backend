@@ -1,10 +1,13 @@
 {
     "version": 2,
-    "name": "carplit-backend",
-    "builds": [
-       { "src": "src/server.js", "use": "@vercel/node" }
-    ],
-    "routes": [
-       { "src": "src/(.*)", "dest": "src/server.js" }
+    "builds": [{
+      "src": "src/server.js",
+      "use": "@now/node-server"
+    }],
+    "routes": [{"handle": "filesystem"},
+      {
+        "src": "/.*",
+        "dest": "src/server.js"
+      }
     ]
- }
+  }

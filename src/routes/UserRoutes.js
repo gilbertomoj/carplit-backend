@@ -216,6 +216,12 @@ router.delete("/delete/", UserAuth, async (req, res) => {
 //     */
 // });
 
+router.get("/recover_password", async (req, res)=>{
+    const { email } = req.body;
+    const result = await UserController.recoverPassword(email);
+    return res.status(result.status).json(result.message);  
+})
+
 router.get("/admin/list", UserAuth, async (req, res) => {
     /*
   #swagger.tags = ['Admin']

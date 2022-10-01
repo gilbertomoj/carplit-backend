@@ -123,4 +123,8 @@ module.exports = {
             return { message: error, status: 400 };
         }
     },
+
+    async recoverPassword(email){
+        console.log(email)
+    }
 };
