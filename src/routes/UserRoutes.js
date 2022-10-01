@@ -83,7 +83,7 @@ router.post("/register", async (req, res) => {
         fuel_per_liter
     );
 
-    return res.json(result);
+    return res.status(result.status).json(result);
 });
 
 router.post("/login", async (req, res) => {
@@ -113,7 +113,7 @@ router.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
     const result = await UserController.login(email, password);
-    return res.json(result);
+    return res.status(result.status).json(result);
 });
 
 // router.post("/trips/create", UserAuth, async (req, res) => {
@@ -173,8 +173,8 @@ router.get("/retrieve/:id", UserAuth, async (req, res) => {
     #swagger.path = "user/retrieve/{id}"
     */
     const id = req.params.id;
-    const User = await UserModel.findOne({ where: { id } });
-    res.send(User);
+    const result = await UserModel.findOne({ where: { id } });
+    return res.status(result.status).json(result.user);
 });
 
 router.put("/update/:id", UserAuth, async (req, res) => {
@@ -184,11 +184,12 @@ router.put("/update/:id", UserAuth, async (req, res) => {
     #swagger.description = 'Endpoint to update user'
     #swagger.path = "user/update/{id}"
     */
+
+    // FIX -> TEM QUE ENVIAR DUAS VEZES ANTES DE REALMENTE EDITAR!
     const id = req.params.id;
     const obj = req.body;
     const result = await UserController.updateUser(id, obj);
-
-    return res.json(result);
+    return res.status(result.status).json(result.updatedUser);
 });
 
 router.delete("/delete/", UserAuth, async (req, res) => {
@@ -212,6 +213,7 @@ router.delete("/delete/", UserAuth, async (req, res) => {
 //     #swagger.summary = 'delete user'
 //     #swagger.description = 'Endpoint to delete user'
 //     #swagger.path = "user/delete/{id}"
+
 //     */
 // });
 
@@ -223,7 +225,7 @@ router.get("/admin/list", UserAuth, async (req, res) => {
   #swagger.path = "user/admin/list"
   */
     const result = await UserController.getUsers();
-    return res.json(result);
+    return res.status(result.status).json(result.users);
 });
 
 module.exports = router;

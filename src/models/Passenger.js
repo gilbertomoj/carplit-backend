@@ -31,6 +31,13 @@ const Passenger = new Schema({
         hidden: true,
         immutable: true,
     },
+    carpoolHistory: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "trip",
+            required: false,
+        },
+    ],
 });
 
 module.exports = mongoose.model("passenger", Passenger);

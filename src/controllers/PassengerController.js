@@ -1,7 +1,10 @@
 const Passenger = require("../models/Passenger");
+
 const bcript = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth");
+const permissions = require("../config/check_permission");
+const check_permission = require("../config/check_permission");
 require("dotenv").config();
 
 module.exports = {
@@ -32,13 +35,10 @@ module.exports = {
     async getUserPassengers(owner) {
         try {
             const passengers = await Passenger.find({ owner });
-            if (passengers.length === 0) {
-                return {
-                    message: "Você ainda não cadastrou caminhos.",
-                    status: 200,
-                };
-            }
-            return passengers;
+            return {
+                passengers,
+                status: 200,
+            };
         } catch (error) {
             return { message: error, status: 400 };
         }
@@ -46,14 +46,23 @@ module.exports = {
 
     async getOnePassenger(user, id) {
         try {
-            const passenger = await Passenger.findOne({ where: { id } });
-            if (user != passenger.owner) {
+            const passenger = await Passenger.findById(id);
+            const permission = await permissions.checkPermission(
+                user,
+                passenger.owner,
+                "Você não tem permissão para visualizar este passageiro."
+            );
+            if (!permission.isValid) {
                 return {
-                    message: "Você não tem permissão para ver",
-                    status: 400,
+                    message: permission.message,
+                    status: permission.status,
                 };
             }
-            return passenger;
+            return {
+                passenger,
+                message: "Passageiro recuperado com sucesso",
+                status: 200,
+            };
         } catch (error) {
             return { message: error, status: 400 };
         }
@@ -62,13 +71,18 @@ module.exports = {
     async updatePassenger(user, id, name, address) {
         try {
             const passenger = await Passenger.findById(id);
-            if (user != passenger.owner) {
+            const permission = await permissions.checkPermission(
+                user,
+                passenger.owner,
+                "Você não tem permissão para editar este passageiro."
+            );
+            if (!permission.isValid) {
                 return {
-                    message: "Você não tem permissão para atualizar",
-                    status: 400,
+                    message: permission.message,
+                    status: permission.status,
                 };
             } else {
-                const UpdatedPassenger = await Passenger.findByIdAndUpdate(
+                const updatedPassenger = await Passenger.findByIdAndUpdate(
                     id,
                     {
                         name,
@@ -77,6 +91,7 @@ module.exports = {
                     { new: true }
                 );
                 return {
+                    updatedPassenger,
                     message: "Passageiro atualizado com sucesso",
                     status: 200,
                 };
@@ -86,16 +101,21 @@ module.exports = {
         }
     },
 
-    async deletePassenger(id) {
+    async deletePassenger(user, id) {
         try {
             const passenger = await Passenger.findById(id);
-            if (user != passenger.owner) {
+            const permission = await permissions.checkPermission(
+                user,
+                passenger.owner,
+                "Você não tem permissão para deletar este passageiro."
+            );
+            if (!permission.isValid) {
                 return {
-                    message: "Você não tem permissão para deletar",
-                    status: 400,
+                    message: permission.message,
+                    status: permission.status,
                 };
             } else {
-                const DeletedPassenger = await Passenger.findByIdAndDelete(id);
+                const deletedPassenger = await Passenger.findByIdAndDelete(id);
                 return {
                     message: "Passageiro deletado com sucesso",
                     status: 200,
