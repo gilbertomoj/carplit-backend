@@ -13,7 +13,7 @@ const User = new Schema({
     password: {
         type: String,
         required: true,
-        maxLenght: 8,
+        minLenght: 8,
     },
     average_consumption: {
         type: Number,
