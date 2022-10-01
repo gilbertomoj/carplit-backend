@@ -76,6 +76,7 @@ module.exports = {
     },
     async updateUser(id, obj){
         try{
+            // Verificação
             const UpdatedUser = await User.findByIdAndUpdate(id, obj);
             return UpdatedUser;
         } catch (error){
@@ -84,8 +85,9 @@ module.exports = {
     },
     async deleteUser(id) {
         try{
-            const DeletedUser = await User.deleteOne({where:{id}});
-            return DeletedUser;
+            // Verificação 
+            const DeletedUser = await User.findByIdAndDelete(id);
+            return {message: "Usuário deletado com sucesso", status: 200};
         } catch (error){
             return {message: error, status: 400}
         }

@@ -36,7 +36,7 @@ router.post("/verify/email", async (req, res) => {
 
     const result = await UserController.verifyEmail(email);
 
-    return res.json(result);
+    return res.status(result.status).json(result);
 });
 
 router.post("/register", async (req, res) => {
@@ -190,6 +190,21 @@ router.put("/update/:id", UserAuth, async (req, res) => {
 
     return res.json(result);
 });
+
+router.delete("/delete/", UserAuth, async (req, res) => {
+  /*
+  #swagger.tags = ['User']
+  #swagger.summary = 'update user'
+  #swagger.description = 'Endpoint to update user'
+  #swagger.path = "user/update/{id}"
+  */
+  const id = req.user_id;
+  const result = await UserController.deleteUser(id);
+
+  return res.status(result.status).json(result.message);
+
+});
+
 
 // router.delete("/delete/:id", UserAuth, async (req, res) => {
 //     /*
