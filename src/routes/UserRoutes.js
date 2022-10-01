@@ -24,7 +24,7 @@ router.post("/verify/email", async (req, res) => {
                 "type": "object",
                 "properties": {
                   "email": {
-                    "example": "user@carplit.com"
+                    "example": "sauron@gmail.com"
                   }
                 }
               }
@@ -51,10 +51,10 @@ router.post("/register", async (req, res) => {
                 "type": "object",
                 "properties": {
                   "name": {
-                    "example": "Carlit"
+                    "example": "Galadriel"
                   },
                   "email": {
-                    "example": "user@carplit.com"
+                    "example": "galadriel@gmail.com"
                   },
                   "password": {
                     "example": "test@123"
@@ -98,7 +98,7 @@ router.post("/login", async (req, res) => {
                 "type": "object",
                 "properties": {
                   "email": {
-                    "example": "user@carplit.com"
+                    "example": "bilbo@gmail.com"
                   },
                   "password": {
                     "example": "test@123"
@@ -115,55 +115,6 @@ router.post("/login", async (req, res) => {
     const result = await UserController.login(email, password);
     return res.status(result.status).json(result);
 });
-
-// router.post("/trips/create", UserAuth, async (req, res) => {
-//     const { title, driver, passengers, total_distance, data } = req.body;
-//     const result = await TripController.createTrips(
-//         title,
-//         driver,
-//         passengers,
-//         total_distance,
-//         data
-//     );
-//     // Pegar as trips apenas do usuário logado
-//     return res.json(result);
-// });
-
-// router.get("/trips/get", UserAuth, async (req, res) => {
-//     const { user_id } = req;
-
-//     const result = await TripController.getTrips(user_id);
-//     // Pegar as trips apenas do usuário logado
-//     return res.json(result);
-// });
-
-// router.post("/trips/create", UserAuth, async (req, res) => {
-//     const { title, driver, passangers, totalDistance, data } = req.body;
-
-//     const result = await TripController.createTrips(
-//         title,
-//         driver,
-//         passangers,
-//         totalDistance,
-//         data
-//     );
-//     // Pegar as trips apenas do usuário logado
-//     return res.json(result);
-// });
-
-// router.get("user/paths/get", UserAuth, async (req, res) => {
-//     const { user_id } = req;
-
-//     const result = await PathController.getUserPaths(user_id);
-//     // Pegar as trips apenas do usuário logado
-//     return res.json(result);
-// });
-
-// router.get("/users/get/:nome", UserAuth, async (req, res) => {
-//     const nome = req.params.nome;
-//     const User = await UserModel.findOne({ where: { nome } });
-//     res.send(User);
-// });
 
 router.get("/retrieve/:id", UserAuth, async (req, res) => {
     /*
@@ -192,30 +143,18 @@ router.put("/update/:id", UserAuth, async (req, res) => {
     return res.status(result.status).json(result.updatedUser);
 });
 
-router.delete("/delete/", UserAuth, async (req, res) => {
-  /*
+router.delete("/delete/:id", UserAuth, async (req, res) => {
+    /*
   #swagger.tags = ['User']
   #swagger.summary = 'update user'
   #swagger.description = 'Endpoint to update user'
   #swagger.path = "user/update/{id}"
   */
-  const id = req.user_id;
-  const result = await UserController.deleteUser(id);
+    const id = req.user_id;
+    const result = await UserController.deleteUser(id);
 
-  return res.status(result.status).json(result.message);
-
+    return res.status(result.status).json(result.message);
 });
-
-
-// router.delete("/delete/:id", UserAuth, async (req, res) => {
-//     /*
-//     #swagger.tags = ['User']
-//     #swagger.summary = 'delete user'
-//     #swagger.description = 'Endpoint to delete user'
-//     #swagger.path = "user/delete/{id}"
-
-//     */
-// });
 
 router.get("/admin/list", UserAuth, async (req, res) => {
     /*

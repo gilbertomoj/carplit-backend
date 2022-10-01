@@ -46,11 +46,7 @@
         "summary": "verify email",
         "description": "Endpoint to verify if given email already exist.",
         "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        },
+        "responses": {},
         "requestBody": {
           "content": {
             "application/json": {
@@ -58,7 +54,7 @@
                 "type": "object",
                 "properties": {
                   "email": {
-                    "example": "user@carplit.com"
+                    "example": "sauron@gmail.com"
                   }
                 }
               }
@@ -75,11 +71,7 @@
         "summary": "register user",
         "description": "Endpoint to register a user",
         "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        },
+        "responses": {},
         "requestBody": {
           "content": {
             "application/json": {
@@ -87,10 +79,10 @@
                 "type": "object",
                 "properties": {
                   "name": {
-                    "example": "Carlit"
+                    "example": "Galadriel"
                   },
                   "email": {
-                    "example": "user@carplit.com"
+                    "example": "galadriel@gmail.com"
                   },
                   "password": {
                     "example": "test@123"
@@ -116,11 +108,7 @@
         "summary": "login user",
         "description": "Endpoint to login",
         "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        },
+        "responses": {},
         "requestBody": {
           "content": {
             "application/json": {
@@ -128,7 +116,7 @@
                 "type": "object",
                 "properties": {
                   "email": {
-                    "example": "user@carplit.com"
+                    "example": "bilbo@gmail.com"
                   },
                   "password": {
                     "example": "test@123"
@@ -165,9 +153,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -199,9 +184,35 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "update user",
+        "description": "Endpoint to update user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
           "401": {
             "description": "Unauthorized"
           }
@@ -225,9 +236,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -251,9 +259,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -277,9 +282,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -328,9 +330,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -362,9 +361,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -413,9 +409,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -439,9 +432,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -465,9 +455,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -491,9 +478,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -542,9 +526,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -576,9 +557,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -627,9 +605,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -653,9 +628,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -679,9 +651,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -705,9 +674,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
