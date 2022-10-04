@@ -1239,11 +1239,6 @@ cookiejar@^2.1.3:
   resolved "https://registry.npmjs.org/cookiejar/-/cookiejar-2.1.3.tgz"
   integrity sha512-JxbCBUdrfr6AQjOXrxoTvAMJO4HBTUIlBzslcJPAz+/KT8yk53fXun51u+RenNYvad/+Vc2DIz5o9UxlCDymFQ==
 
-coordenadas-do-cep@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/coordenadas-do-cep/-/coordenadas-do-cep-1.2.0.tgz#bbbc3444e3f9d4e8662bab2b41836c7e95522086"
-  integrity sha512-YcmgNl+OneJxrRj7lc+hD8w3w1y3Puqbv5L5Z86mBTIN0+j8U4UL6v3FbAlvyFCnDQNVFWbslhacy39/yNVDcg==
-
 cors@^2.8.5:
   version "2.8.5"
   resolved "https://registry.npmjs.org/cors/-/cors-2.8.5.tgz"
@@ -1646,6 +1641,11 @@ gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"
   resolved "https://registry.npmjs.org/gensync/-/gensync-1.0.0-beta.2.tgz"
   integrity sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==
+
+geolib@^3.3.3:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/geolib/-/geolib-3.3.3.tgz#17f5a0dcdc0b051bd631b66f7131d2c14c54a15b"
+  integrity sha512-YO704pzdB/8QQekQuDmFD5uv5RAwAf4rOUPdcMhdEOz+HoPWD0sC7Qqdwb+LAvwIjXVRawx0QgZlocKYh8PFOQ==
 
 get-caller-file@^2.0.5:
   version "2.0.5"
