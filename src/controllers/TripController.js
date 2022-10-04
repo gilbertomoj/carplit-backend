@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Trip = require("../models/Trip");
+const Passenger = require("../models/Passenger");
 
 const bcript = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -17,15 +18,30 @@ module.exports = {
         };
     },
 
-    async createTrip(title, owner, passangers, totalDistance, data) {
-        const trip = await Trip.create({
-            title,
-            owner,
-            passangers,
-            totalDistance,
-            data,
-        });
-        return trip;
+    async createTrip(passengers, path, value, isOwnerIncluded, isFixedValue, owner) {
+        // 
+        const ownerValue = this.ownerIncluded(isOwnerIncluded);
+        if(isFixedValue) {
+            const sharedValue = value / (passengers.length + ownerValue);
+            passengers.forEach(async element => {
+                const passengerUpdate = await Passenger.findOneAndUpdate({_id: element._id},{ isOnDebt: true, debt: sharedValue}, {new: true}); 
+                console.log(passengerUpdate);
+            });
+        }
+
+        return result = {
+            status: 200,
+            trips: "Ok"
+        }
+        // const trip = await Trip.create({
+        //     passengers, 
+        //     path, 
+        //     value, 
+        //     isOwnerIncluded, 
+        //     isFixedValue,
+        //     owner
+        // });
+        // return trip;
     },
 
     async getUserTips(owner) {
@@ -88,4 +104,12 @@ module.exports = {
             return { message: error, status: 400 };
         }
     },
+
+    ownerIncluded(value) {
+        if (value){
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 };

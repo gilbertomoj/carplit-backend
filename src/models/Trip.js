@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const Trip = new Schema({
     date: {
         type: Date,
+        default: Date.now,
         required: true,
         hidden: true,
     },

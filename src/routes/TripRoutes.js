@@ -32,26 +32,30 @@ router.get("/list", UserAuth, async (req, res) => {
 
 // ROTA NAO FINALIZADA
 
-// router.post("/create", UserAuth, async (req, res) => {
+router.post("/create", UserAuth, async (req, res) => {
 /*  
         #swagger.tags = ['Trip']
         #swagger.description = 'Endpoint to create a trip'
         #swagger.path = "trip/create"
     */
-//     const owner = await UserModel.findOne({ _id: req.user_id });
-//     // precisa de rota para display e escolha de trajetos
-//     // se nao existir trajeto -> criar trajeto
+    try {
+        const owner = await UserModel.findOne({ _id: req.user_id });
+        const { passengers, path, value, isOwnerIncluded, isFixedValue  } = req.body;
+        const result = await TripController.createTrip(
+            passengers, 
+            path, 
+            value, 
+            isOwnerIncluded, 
+            isFixedValue,
+            owner
+        );
+    
+        return res.status(result.status).json(result.trips);
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error" });
+    }
 
-//     // precisa de rota para display dos passageiros
-//     const { title } = req.body;
-//     const result = await PassengerController.createPassenger(
-//         title,
-//         address,
-//         owner._id
-//     );
-
-//     return res.json(result);
-// });
+});
 
 router.get("/admin/list", UserAuth, async (req, res) => {
     /*  
