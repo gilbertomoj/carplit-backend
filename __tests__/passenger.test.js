@@ -1,11 +1,11 @@
 const request = require("supertest");
 const ApiUrl = "http://localhost:8080";
 let token = "";
-let pathObject = "";
+let passengerObject = "";
 
 const obj = {
-        title: "casas bahiaa",
-        totalDistance: 110
+        name: "Jose",
+        address: "Rua Campelo"
 }
 beforeAll(() => {
     return request(ApiUrl)
@@ -22,10 +22,10 @@ beforeAll(() => {
 });
 
 
-describe("GET path/list", () => {
+describe("GET passanger/list", () => {
     it("should return 200 and a confirmation message", () => {
         return request(ApiUrl)
-            .get("/path/list")
+            .get("/passenger/list")
             .set('Authorization', `Bearer ${token}`)
             .then((response) => {
                 expect(response.status).toEqual(200);
@@ -33,23 +33,23 @@ describe("GET path/list", () => {
     });
 });
 
-describe("POST path/create", () => {
+describe("POST passenger/create", () => {
     it("should return 200 and a confirmation message", () => {
         return request(ApiUrl)
-            .post("/path/create")
+            .post("/passenger/create")
             .send(obj)
             .set('Authorization', `Bearer ${token}`)
             .then((response) => {
-                pathObject = response.body.path;
+                passengerObject = response.body.passenger;
                 expect(response.status).toEqual(200);
             });
     });
 });
 
-describe("PUT path/update/:id", () => {
+describe("PUT passenger/update/:id", () => {
     it("should return 200 and a confirmation message", () => {
         return request(ApiUrl)
-            .put(`/path/update/${pathObject._id}`)
+            .put(`/passenger/update/${passengerObject._id}`)
             .send(obj)
             .set('Authorization', `Bearer ${token}`)
             .then((response) => {
@@ -59,10 +59,10 @@ describe("PUT path/update/:id", () => {
     });
 });
 
-describe("DELETE path/delete/:id", () => {
+describe("DELETE passenger/delete/:id", () => {
     it("should return 200 and a confirmation message", () => {
         return request(ApiUrl)
-            .delete(`/path/delete/${pathObject._id}`)
+            .delete(`/passenger/delete/${passengerObject._id}`)
             .set('Authorization', `Bearer ${token}`)
             .then((response) => {
                 expect(response.status).toEqual(200);
