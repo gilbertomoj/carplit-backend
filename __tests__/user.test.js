@@ -9,22 +9,6 @@ const obj = {
     fuel_per_liter: 11.4,
 };
 
-// let user_id = ''
-
-// beforeAll(() => {
-//     return request(ApiUrl)
-//         .post("/user/login")
-//         .send({
-//             email: "gaaga@gmail.com",
-//             password: "1234",
-//         })
-//         .expect(200)
-//         .then((response) => {
-//             expect(response.body.status).toEqual(200);
-//             token = response.body.token;
-//         });
-// });
-
 describe("POST user/register", () => {
     it("should return 200 and a confirmation message", () => {
         return request(ApiUrl)

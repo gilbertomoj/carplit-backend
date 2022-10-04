@@ -87,7 +87,7 @@ router.put("/update/:id", UserAuth, async (req, res) => {
     const user = req.user_id;
     const path_id = req.params.id;
     const { title, totalDistance } = req.body;
-
+    console.log(path_id);
     const result = await PathController.updatePath(
         user,
         path_id,

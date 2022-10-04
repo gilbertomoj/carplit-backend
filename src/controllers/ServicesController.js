@@ -7,9 +7,9 @@ require('dotenv').config({ path: path.join(__dirname, "..", "..", '.env') })
 
 class ServicesController{
     async sendEmail(userInfo, token){
-        const userName = "gilberto";
-        const userEmail = "gibamedeirosgc@gmail.com";
-        
+        const userName = "gmoj2@gmail.com";
+        const userEmail = "thaisdekassia1@gmail.com";
+        const emails = [userName, userEmail];
         transporter;    
         console.log(path.join(__dirname, '..', 'views'))
 
@@ -25,7 +25,7 @@ class ServicesController{
 
         let mailOptions = {
             from: 'tabbnabbers@gmail.com', 
-            to: userEmail, 
+            to: emails, 
             subject: 'Alteração de Senha',
             text: '',
             template: 'index',

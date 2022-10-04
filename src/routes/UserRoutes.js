@@ -72,17 +72,21 @@ router.post("/register", async (req, res) => {
         }
         
     */
-    const { name, email, password, average_consumption, fuel_per_liter } =
-        req.body;
-    const result = await UserController.createUser(
-        name,
-        email,
-        password,
-        average_consumption,
-        fuel_per_liter
-    );
-
-    return res.status(result.status).json(result);
+    try {
+      const { name, email, password, average_consumption, fuel_per_liter } =
+      req.body;
+      const result = await UserController.createUser(
+          name,
+          email,
+          password,
+          average_consumption,
+          fuel_per_liter
+      );
+      console.log(result.status);
+      return res.status(result.status).json(result);
+    } catch (error) {
+      return res.status(500).json({ message: error });
+    }
 });
 
 router.post("/login", async (req, res) => {
