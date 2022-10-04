@@ -2,13 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const Trip = new Schema({
-    data: {
+    date: {
         type: Date,
         required: true,
-    },
-    title: {
-        type: String,
-        required: true,
+        hidden: true,
     },
     passengers: [
         {
@@ -31,7 +28,6 @@ const Trip = new Schema({
     value: {
         type: Number,
         default: 0.0,
-        required: true,
     },
     isOwnerIncluded: {
         type: Boolean,
