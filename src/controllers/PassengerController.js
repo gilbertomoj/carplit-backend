@@ -125,4 +125,69 @@ module.exports = {
             return { message: error, status: 400 };
         }
     },
+    async updateDebt(user, id, debt) {
+        try {
+            const passenger = await Passenger.findById(id);
+            const permission = await permissions.checkPermission(
+                user,
+                passenger.owner,
+                "Você não tem permissão para editar este passageiro."
+            );
+            if (!permission.isValid) {
+                return {
+                    message: permission.message,
+                    status: permission.status,
+                };
+            } else {
+                const updatedPassenger = await Passenger.findByIdAndUpdate(
+                    id,
+                    {
+                        debt, // debtAtual - debtDaCaronaPaga
+                    },
+                    { new: true }
+                );
+                // if updatedPassenger.debt == 0:
+                // isOnDebt -> false
+                return {
+                    updatedPassenger,
+                    message: "Divida atualizada com sucesso",
+                    status: 200,
+                };
+            }
+        } catch (error) {
+            return { message: error, status: 400 };
+        }
+    },
+    async updateAllDebts(user, id) {
+        try {
+            const passenger = await Passenger.findById(id);
+            const permission = await permissions.checkPermission(
+                user,
+                passenger.owner,
+                "Você não tem permissão para deletar este passageiro."
+            );
+            if (!permission.isValid) {
+                return {
+                    message: permission.message,
+                    status: permission.status,
+                };
+            } else {
+                const updatedPassenger = await Passenger.findByIdAndUpdate(
+                    id,
+                    {
+                        debt, // debt = 0
+                        isOnDebt, // isOnDebt -> false
+                    },
+                    { new: true }
+                );
+                return {
+                    updatedPassenger,
+                    message: "Divida atualizada com sucesso",
+                    status: 200,
+                };
+            }
+        } catch (error) {
+            return { message: error, status: 400 };
+        }
+    },
 };
