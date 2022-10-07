@@ -50,7 +50,11 @@
         "summary": "verify email",
         "description": "Endpoint to verify if given email already exist.",
         "parameters": [],
-        "responses": {},
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
         "requestBody": {
           "content": {
             "application/json": {
@@ -58,7 +62,7 @@
                 "type": "object",
                 "properties": {
                   "email": {
-                    "example": "sauron@gmail.com"
+                    "example": "user@carplit.com"
                   }
                 }
               }
@@ -75,7 +79,11 @@
         "summary": "register user",
         "description": "Endpoint to register a user",
         "parameters": [],
-        "responses": {},
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
         "requestBody": {
           "content": {
             "application/json": {
@@ -83,10 +91,10 @@
                 "type": "object",
                 "properties": {
                   "name": {
-                    "example": "Galadriel"
+                    "example": "Carlit"
                   },
                   "email": {
-                    "example": "galadriel@gmail.com"
+                    "example": "user@carplit.com"
                   },
                   "password": {
                     "example": "test@123"
@@ -112,7 +120,11 @@
         "summary": "login user",
         "description": "Endpoint to login",
         "parameters": [],
-        "responses": {},
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
         "requestBody": {
           "content": {
             "application/json": {
@@ -120,7 +132,7 @@
                 "type": "object",
                 "properties": {
                   "email": {
-                    "example": "bilbo@gmail.com"
+                    "example": "user@carplit.com"
                   },
                   "password": {
                     "example": "test@123"
@@ -159,11 +171,14 @@
         "responses": {
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
     },
-    "user/update/{id}": {
+    "user/update/": {
       "put": {
         "tags": [
           "User"
@@ -171,14 +186,6 @@
         "summary": "update user",
         "description": "Endpoint to update user",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "authorization",
             "in": "header",
@@ -190,9 +197,31 @@
         "responses": {
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "average_consumption": {
+                    "example": "any"
+                  },
+                  "fuel_per_liter": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
-      },
+      }
+    },
+    "user/update/{id}": {
       "delete": {
         "tags": [
           "User"
@@ -219,6 +248,20 @@
         "responses": {
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/recover_password": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -657,6 +700,57 @@
         "responses": {
           "401": {
             "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "trip/create": {
+      "post": {
+        "tags": [
+          "Trip"
+        ],
+        "description": "Endpoint to create a trip",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "passengers": {
+                    "example": "any"
+                  },
+                  "path": {
+                    "example": "any"
+                  },
+                  "value": {
+                    "example": "any"
+                  },
+                  "isOwnerIncluded": {
+                    "example": "any"
+                  },
+                  "isFixedValue": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       }

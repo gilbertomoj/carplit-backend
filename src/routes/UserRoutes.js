@@ -149,11 +149,10 @@ router.put("/update/", UserAuth, async (req, res) => {
     #swagger.tags = ['User']
     #swagger.summary = 'update user'
     #swagger.description = 'Endpoint to update user'
-    #swagger.path = "user/update/{id}"
+    #swagger.path = "user/update/"
     */
     try {
         const user = req.user_id;
-        // const obj = req.body;
         const { average_consumption, fuel_per_liter } = req.body;
         const result = await UserController.updateUser(
           user,
