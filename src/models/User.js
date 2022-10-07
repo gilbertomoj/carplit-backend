@@ -5,10 +5,12 @@ const User = new Schema({
     name: {
         type: String,
         required: true,
+        imumtable: true,
     },
     email: {
         type: String,
         required: true,
+        imumtable: true,
     },
     password: {
         type: String,

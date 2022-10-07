@@ -34,7 +34,6 @@ const pathRoutes = require("./routes/PathRoutes");
 const tripRoutes = require("./routes/TripRoutes");
 
 // Rotas
-
 app.use("/user", userRoutes);
 app.use("/passenger", passengerRoutes);
 app.use("/path", pathRoutes);

@@ -97,11 +97,16 @@ module.exports = {
         }
     },
 
-    async updateUser(id, obj) {
+    async updateUser(id, average_consumption, fuel_per_liter) {
         try {
-            const updatedUser = await User.findByIdAndUpdate(id, obj, {
-                new: true,
-            });
+            const updatedUser = await User.findByIdAndUpdate(
+                id, 
+                {
+                    average_consumption, 
+                    fuel_per_liter,
+                },
+                { new: true }
+            ); 
             return {
                 updatedUser,
                 message: "Usuario atualizado com sucesso",
