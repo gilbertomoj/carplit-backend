@@ -159,7 +159,7 @@ router.put("/update/", UserAuth, async (req, res) => {
           average_consumption,
           fuel_per_liter
         );
-        return res.status(result.status).json(result.updatedUser);
+        return res.status(result.status);
     } catch (error){
         return res.status(500).json({ message: error });
     }
