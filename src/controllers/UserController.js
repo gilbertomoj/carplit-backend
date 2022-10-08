@@ -97,11 +97,14 @@ module.exports = {
         }
     },
 
-    async updateUser(id, average_consumption, fuel_per_liter) {
+    async updateUser(id, name, email,average_consumption, fuel_per_liter) {
         try {
+            console.log("teste")
             const updatedUser = await User.findByIdAndUpdate(
                 id, 
                 {
+                    name,
+                    email,
                     average_consumption, 
                     fuel_per_liter,
                 },

@@ -144,22 +144,26 @@ router.get("/retrieve/:id", UserAuth, async (req, res) => {
     }
 });
 
-router.put("/update/", UserAuth, async (req, res) => {
+router.put("/update", UserAuth, async (req, res) => {
     /*
     #swagger.tags = ['User']
     #swagger.summary = 'update user'
     #swagger.description = 'Endpoint to update user'
     #swagger.path = "user/update/"
     */
+   
+    const user = req.user_id;
+
     try {
-        const user = req.user_id;
-        const { average_consumption, fuel_per_liter } = req.body;
+        const { name, email, average_consumption, fuel_per_liter } = req.body;
         const result = await UserController.updateUser(
           user,
+          name,
+          email,
           average_consumption,
           fuel_per_liter
         );
-        return res.status(result.status);
+        return res.status(result.status).json(result.message);
     } catch (error){
         return res.status(500).json({ message: error });
     }

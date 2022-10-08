@@ -32,12 +32,13 @@ const userRoutes = require("./routes/UserRoutes");
 const passengerRoutes = require("./routes/PassengerRoutes");
 const pathRoutes = require("./routes/PathRoutes");
 const tripRoutes = require("./routes/TripRoutes");
-
+const financeRoutes = require("./routes/FinanceRoutes");
 // Rotas
 app.use("/user", userRoutes);
 app.use("/passenger", passengerRoutes);
 app.use("/path", pathRoutes);
 app.use("/trip", tripRoutes);
+app.use("/finance", financeRoutes);
 
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
