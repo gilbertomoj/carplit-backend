@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const Trip = require("../models/Trip");
 const Passenger = require("../models/Passenger");
-
+const Path = require("../models/Path");
 const bcript = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth");
@@ -23,27 +23,67 @@ module.exports = {
         const ownerValue = this.ownerIncluded(isOwnerIncluded);
         if(isFixedValue) {
             const sharedValue = value / (passengers.length + ownerValue);
-            passengers.forEach(async element => {
-                const passengerUpdate = await Passenger.findOneAndUpdate({_id: element._id},{ isOnDebt: true, debt: sharedValue}, {new: true}); 
-                console.log(passengerUpdate);
-            });
-        }
 
-        return result = {
-            status: 200,
-            trips: "Ok"
-        }
-        // const trip = await Trip.create({
-        //     passengers, 
-        //     path, 
-        //     value, 
-        //     isOwnerIncluded, 
-        //     isFixedValue,
-        //     owner
-        // });
-        // return trip;
+            const createdTrip = await Trip.create({
+                path,
+                passengers,
+                value,
+                isOwnerIncluded,
+                isFixedValue,
+                owner
+            })
+
+            passengers.forEach(async element => {
+                const passenger_find = await Passenger.findById({ _id: element._id });
+                console.log(passenger_find);
+                let history_trips = new Array();
+                history_trips = passenger_find.carpoolHistory;
+                history_trips.push(createdTrip._id);
+                const passengerUpdate = await Passenger.findOneAndUpdate({_id: element._id},{ isOnDebt: true, debt: sharedValue, carpoolHistory: history_trips}, {new: true}); 
+                console.log(passengerUpdate)
+
+            });
+
+            return { trips: createdTrip, status: 200 };
+        } else {       
+            const path_find = await Path.findById({ _id: path });
+            const user_find = await User.findById({ _id: owner._id });
+            let totalValue = (path_find.totalDistance / user_find.average_consumption) * user_find.fuel_per_liter;
+
+            const createdTrip = await Trip.create({
+                path,
+                passengers,
+                value: totalValue,
+                isOwnerIncluded,
+                isFixedValue,
+                owner
+            })
+
+            const sharedValue = totalValue / (passengers.length + ownerValue);
+            passengers.forEach(async element => {
+                const passenger_find = await Passenger.findById({ _id: element._id });
+                let history_trips = new Array();
+                history_trips = passenger_find.carpoolHistory;
+                history_trips.push(createdTrip._id);
+                const passengerUpdate = await Passenger.findOneAndUpdate({_id: element._id},{ isOnDebt: true, debt: sharedValue, carpoolHistory: history_trips}, {new: true}); 
+            });
+            return { trips: createdTrip, status: 200 };
+        }   
+
     },
 
+    async passengerPayment(passenger_id){
+        try {
+            const passenger = await Passenger.findOneAndUpdate({_id: passenger_id},{ isOnDebt: false, debt: 0}, {new: true});
+
+            return {passenger: "Pagamento feito com sucesso", status: 200 };
+            
+        } catch (error) {
+            return { error: "Internal server error", status: 500 };
+        }
+
+    },
+    
     async getUserTips(owner) {
         try {
             const trips = await Trip.find({ owner });

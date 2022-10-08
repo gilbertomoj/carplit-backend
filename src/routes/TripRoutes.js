@@ -57,6 +57,23 @@ router.post("/create", UserAuth, async (req, res) => {
 
 });
 
+router.put("/passenger/payment/:id", async (req, res) => {
+    /*  
+        #swagger.tags = ['Trip']
+        #swagger.summary = 'passenger payment'
+        #swagger.description = 'Endpoint to pay a passenger'
+        #swagger.path = "trip/passenger/payment"
+    */
+    try {
+        const id = req.params.id;
+        const result = await TripController.passengerPayment(id);
+        return res.status(result.status).json(result.passenger);
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({error: "Internal server error"});
+    }
+});
+
 router.get("/admin/list", UserAuth, async (req, res) => {
     /*  
         #swagger.tags = ['Admin']
