@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
+const moment = require("moment")
+
+
 const Schema = mongoose.Schema;
 
 const Trip = new Schema({
     date: {
-        type: Date,
-        default: Date.now,
+        type: String,
+        default: moment().locale("pt-br").format('dddd, MM/DD/YYYY'),
         required: true,
         hidden: true,
     },

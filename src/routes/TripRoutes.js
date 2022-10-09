@@ -40,9 +40,10 @@ router.post("/create", UserAuth, async (req, res) => {
     */
     try {
         const owner = await UserModel.findOne({ _id: req.user_id });
-        const { passengers, path, value, isOwnerIncluded, isFixedValue  } = req.body;
+        const { passengers, path, date, value, isOwnerIncluded, isFixedValue  } = req.body;
         const result = await TripController.createTrip(
             passengers, 
+            date,
             path, 
             value, 
             isOwnerIncluded, 

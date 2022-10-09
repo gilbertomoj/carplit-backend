@@ -16,6 +16,7 @@ const User = new Schema({
         type: String,
         required: true,
         minLenght: 8,
+        hidden: true
     },
     average_consumption: {
         type: Number,

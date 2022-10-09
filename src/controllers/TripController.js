@@ -1,3 +1,4 @@
+const moment = require("moment")
 const User = require("../models/User");
 const Trip = require("../models/Trip");
 const Passenger = require("../models/Passenger");
@@ -11,20 +12,24 @@ require("dotenv").config();
 
 module.exports = {
     async getTrips(user_id) {
+        console.log("teste")
         const trips = await Trip.findById(user_id).populate("passengers");
+        
         return {
             trips,
             status: 200,
         };
     },
 
-    async createTrip(passengers, path, value, isOwnerIncluded, isFixedValue, owner) {
+    async createTrip(passengers, date, path, value, isOwnerIncluded, isFixedValue, owner) {
         // 
         const ownerValue = this.ownerIncluded(isOwnerIncluded);
         if(isFixedValue) {
+
             const sharedValue = value / (passengers.length + ownerValue);
 
             const createdTrip = await Trip.create({
+                date,
                 path,
                 passengers,
                 value,
@@ -83,12 +88,27 @@ module.exports = {
         }
 
     },
-    
+    // async get(){
+    //     sdjsdas 9asd
+    // },
     async getUserTips(owner) {
         try {
+            let arr = [];
+            const trip_list = await Trip.find({ owner }).distinct('date');   
             const trips = await Trip.find({ owner });
+            
+            trip_list.forEach(element => {
+                let itens = []
+                trips.forEach(trip_element => {
+                    if(element == trip_element.date){
+                        itens.push(trip_element);
+                    }
+                })
+                arr.push({date: element, data: itens});
+            });
+
             return {
-                trips,
+                trips: arr,
                 status: 200,
             };
         } catch (error) {
