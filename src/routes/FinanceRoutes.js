@@ -11,7 +11,12 @@ const TripController = require("../controllers/TripController");
 const UserAuth = require("../middleware/UserAuth");
 const PathController = require("../controllers/PathController");
 
-router.get("/list", async (req, res )=>{
+router.get("/list", async (req, res ) => {
+    /*  #swagger.tags = ['Finance']
+        #swagger.summary = 'list user passenger'
+        #swagger.description = 'Endpoint to list user finance'
+        #swagger.path = "finance/list"
+    */
     try {
         const user_id = req;
         console.log(user_id);
