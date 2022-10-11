@@ -149,7 +149,7 @@ router.put("/update", UserAuth, async (req, res) => {
     #swagger.tags = ['User']
     #swagger.summary = 'update user'
     #swagger.description = 'Endpoint to update user'
-    #swagger.path = "user/update/"
+    #swagger.path = "user/update"
     */
    
     const user = req.user_id;
@@ -170,12 +170,12 @@ router.put("/update", UserAuth, async (req, res) => {
 
 });
 
-router.delete("/delete/", UserAuth, async (req, res) => {
+router.delete("/delete", UserAuth, async (req, res) => {
   /*
   #swagger.tags = ['User']
   #swagger.summary = 'update user'
   #swagger.description = 'Endpoint to update user'
-  #swagger.path = "user/update/{id}"
+  #swagger.path = "user/delete"
   */
   try {
     const id = req.user_id;

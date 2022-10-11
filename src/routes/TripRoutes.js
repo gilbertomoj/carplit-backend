@@ -30,8 +30,6 @@ router.get("/list", UserAuth, async (req, res) => {
     return res.status(result.status).json(result.trips);
 });
 
-// ROTA NAO FINALIZADA
-
 router.post("/create", UserAuth, async (req, res) => {
 /*  
         #swagger.tags = ['Trip']
@@ -63,7 +61,7 @@ router.put("/passenger/payment/:id", async (req, res) => {
         #swagger.tags = ['Trip']
         #swagger.summary = 'passenger payment'
         #swagger.description = 'Endpoint to pay a passenger'
-        #swagger.path = "trip/passenger/payment"
+        #swagger.path = "trip/passenger/payment/{ìd}"
     */
     try {
         const id = req.params.id;

@@ -12,6 +12,11 @@ const UserAuth = require("../middleware/UserAuth");
 const PathController = require("../controllers/PathController");
 
 router.get("/list/:opt", UserAuth, async (req, res )=>{
+    /*  #swagger.tags = ['Finance']
+        #swagger.summary = 'list user passenger'
+        #swagger.description = 'Endpoint to list user finance'
+        #swagger.path = "finance/list"
+    */
     try {
         const options = req.params.opt;
         const user = req.user_id;

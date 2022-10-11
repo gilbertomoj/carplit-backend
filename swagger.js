@@ -44,6 +44,10 @@ const doc = {
             description: "Operations about trip",
         },
         {
+            name: "Finance",
+            description: "Operations about finance",
+        },
+        {
             name: "Admin",
             description: "Admin operations",
         },

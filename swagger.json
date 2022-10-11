@@ -37,6 +37,10 @@
       "description": "Operations about trip"
     },
     {
+      "name": "Finance",
+      "description": "Operations about finance"
+    },
+    {
       "name": "Admin",
       "description": "Admin operations"
     }
@@ -178,7 +182,7 @@
         }
       }
     },
-    "user/update/": {
+    "user/update": {
       "put": {
         "tags": [
           "User"
@@ -208,6 +212,12 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "name": {
+                    "example": "any"
+                  },
+                  "email": {
+                    "example": "any"
+                  },
                   "average_consumption": {
                     "example": "any"
                   },
@@ -221,7 +231,7 @@
         }
       }
     },
-    "user/update/{id}": {
+    "user/delete": {
       "delete": {
         "tags": [
           "User"
@@ -229,14 +239,6 @@
         "summary": "update user",
         "description": "Endpoint to update user",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "authorization",
             "in": "header",
@@ -739,6 +741,9 @@
                   "path": {
                     "example": "any"
                   },
+                  "date": {
+                    "example": "any"
+                  },
                   "value": {
                     "example": "any"
                   },
@@ -751,6 +756,30 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "trip/passenger/payment/{ìd}": {
+      "put": {
+        "tags": [
+          "Trip"
+        ],
+        "summary": "passenger payment",
+        "description": "Endpoint to pay a passenger",
+        "parameters": [
+          {
+            "name": "ìd",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
