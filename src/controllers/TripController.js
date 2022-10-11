@@ -23,10 +23,7 @@ module.exports = {
 
     async createTrip(passengers, date, path, value, isOwnerIncluded, isFixedValue, owner) {
         // 
-        const ownerValue = this.ownerIncluded(isOwnerIncluded);
         if(isFixedValue) {
-
-            const sharedValue = value / (passengers.length + ownerValue);
 
             const createdTrip = await Trip.create({
                 date,
@@ -37,14 +34,18 @@ module.exports = {
                 isFixedValue,
                 owner
             })
-
+            
             passengers.forEach(async element => {
                 const passenger_find = await Passenger.findById({ _id: element._id });
-                console.log(passenger_find);
+
                 let history_trips = new Array();
+                let currentDebt = passenger_find.debt;
+                currentDebt += element.price;
+                
                 history_trips = passenger_find.carpoolHistory;
                 history_trips.push(createdTrip._id);
-                const passengerUpdate = await Passenger.findOneAndUpdate({_id: element._id},{ isOnDebt: true, debt: sharedValue, carpoolHistory: history_trips}, {new: true}); 
+
+                const passengerUpdate = await Passenger.findOneAndUpdate({_id: element._id},{ isOnDebt: true, debt: currentDebt, carpoolHistory: history_trips}, {new: true}); 
                 console.log(passengerUpdate)
 
             });
@@ -64,33 +65,37 @@ module.exports = {
                 owner
             })
 
-            const sharedValue = totalValue / (passengers.length + ownerValue);
             passengers.forEach(async element => {
                 const passenger_find = await Passenger.findById({ _id: element._id });
                 let history_trips = new Array();
+                let currentDebt = passenger_find.debt;
+                currentDebt += element.price;
+
                 history_trips = passenger_find.carpoolHistory;
                 history_trips.push(createdTrip._id);
-                const passengerUpdate = await Passenger.findOneAndUpdate({_id: element._id},{ isOnDebt: true, debt: sharedValue, carpoolHistory: history_trips}, {new: true}); 
+
+                const passengerUpdate = await Passenger.findOneAndUpdate({_id: element._id},{ isOnDebt: true, debt: currentDebt, carpoolHistory: history_trips}, {new: true}); 
             });
             return { trips: createdTrip, status: 200 };
         }   
 
     },
 
-    async passengerPayment(passenger_id){
+    async passengerPayment(passenger_id, value){
         try {
-            const passenger = await Passenger.findOneAndUpdate({_id: passenger_id},{ isOnDebt: false, debt: 0}, {new: true});
+            const find_passenger = await Passenger.findById({ _id: passenger_id });
+            let currentDebt = find_passenger.debt;
+            currentDebt -= value;
+            const passenger = await Passenger.findOneAndUpdate({_id: passenger_id},{ isOnDebt: false, debt: currentDebt}, {new: true});
 
-            return {passenger: "Pagamento feito com sucesso", status: 200 };
+            return {passenger: passenger, status: 200 };
             
         } catch (error) {
             return { error: "Internal server error", status: 500 };
         }
 
     },
-    // async get(){
-    //     sdjsdas 9asd
-    // },
+
     async getUserTips(owner) {
         try {
             let arr = [];

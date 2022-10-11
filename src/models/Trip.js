@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 const Trip = new Schema({
     date: {
         type: String,
-        default: moment().locale("pt-br").format('dddd, MM/DD/YYYY'),
+        default: moment().locale("pt-br").format('dddd, DD/MM/YYYY'),
         required: true,
         hidden: true,
     },

@@ -67,7 +67,9 @@ router.put("/passenger/payment/:id", async (req, res) => {
     */
     try {
         const id = req.params.id;
-        const result = await TripController.passengerPayment(id);
+        const { value } = req.body;
+
+        const result = await TripController.passengerPayment(id, value);
         return res.status(result.status).json(result.passenger);
     } catch (error) {
         console.log(error)

@@ -106,7 +106,6 @@ router.delete("/delete/:id", UserAuth, async (req, res) => {
         #swagger.description = 'Endpoint to delete a passenger'
         #swagger.path = "passenger/delete/{id}"
     */
-
     const user = req.user_id;
     const passenger_id = req.params.id;
 
@@ -117,6 +116,20 @@ router.delete("/delete/:id", UserAuth, async (req, res) => {
 
     return res.status(result.status).json(result.deletedPassenger);
 });
+
+router.put("/payment-all/:id", UserAuth, async (req, res) => {
+    try {
+        const id = req.params.id;
+        const user = req.user_id;
+        
+        const result = await PassengerController.updateAllDebts(user, id);
+
+        return res.status(result.status).json(result);
+    
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+})
 
 router.get("/admin/list", UserAuth, async (req, res) => {
     /*  #swagger.tags = ['Admin']
