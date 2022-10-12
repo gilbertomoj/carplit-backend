@@ -21,7 +21,7 @@ module.exports = {
         };
     },
 
-    async createTrip(passengers, date, path, value, isOwnerIncluded, isFixedValue, owner) {
+    async createTrip(gas_price, passengers, date, path, value, isOwnerIncluded, isFixedValue, owner) {
         // 
         if(isFixedValue) {
 
@@ -32,7 +32,8 @@ module.exports = {
                 value,
                 isOwnerIncluded,
                 isFixedValue,
-                owner
+                owner,
+                gas_price
             })
             
             passengers.forEach(async element => {
@@ -63,7 +64,8 @@ module.exports = {
                 value: totalValue,
                 isOwnerIncluded,
                 isFixedValue,
-                owner
+                owner,
+                gas_price
             })
 
             passengers.forEach(async element => {
@@ -78,7 +80,7 @@ module.exports = {
                 const passengerUpdate = await Passenger.findOneAndUpdate({_id: element._id},{ isOnDebt: true, debt: currentDebt, carpoolHistory: history_trips}, {new: true}); 
             });
 
-            const trip = await Trip.findById( createdTrip._id ).populate("passengers").populate("path");
+            const trip = await Trip.find().populate("passengers").populate("path");
 
             return { trips: trip, status: 200 };
         }   

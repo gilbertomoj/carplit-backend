@@ -43,6 +43,10 @@ const Trip = new Schema({
         default: false,
         required: true,
     },
+    gas_price: {
+        type: Number,
+        required: true,
+    }
 });
 
 module.exports = mongoose.model("trip", Trip);
