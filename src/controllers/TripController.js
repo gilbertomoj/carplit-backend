@@ -82,9 +82,20 @@ module.exports = {
                 const passengerUpdate = await Passenger.findOneAndUpdate({_id: element._id},{ isOnDebt: true, debt: currentDebt, carpoolHistory: history_trips}, {new: true}); 
             });
 
-            const trip = await Trip.find({ owner }).populate("passengers").populate("path");
-
-            return { trips: trip, status: 200 };
+            let arr = [];
+            const trip_list = await Trip.find({ owner }).distinct('date');   
+            const trips = await Trip.find({ owner }).populate("passengers").populate("path");
+            
+            trip_list.forEach(element => {
+                let itens = []
+                trips.forEach(trip_element => {
+                    if(element == trip_element.date){
+                        itens.push(trip_element);
+                    }
+                })
+                arr.push({date: element, data: itens});
+            });
+            return { trips: arr, status: 200 };
         }   
 
     },
