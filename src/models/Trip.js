@@ -46,6 +46,10 @@ const Trip = new Schema({
     gas_price: {
         type: Number,
         required: true,
+    },
+    km_l: {
+        type: Number,
+        required: true
     }
 });
 

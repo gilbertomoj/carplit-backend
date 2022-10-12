@@ -38,9 +38,10 @@ router.post("/create", UserAuth, async (req, res) => {
     */
     try {
         const owner = await UserModel.findOne({ _id: req.user_id });
-        const { gas_price, passengers, path, date, value, isOwnerIncluded, isFixedValue  } = req.body;
+        const { gas_price, km_l, passengers, path, date, value, isOwnerIncluded, isFixedValue  } = req.body;
         const result = await TripController.createTrip(
             gas_price,
+            km_l,
             passengers, 
             date,
             path, 
@@ -51,7 +52,7 @@ router.post("/create", UserAuth, async (req, res) => {
         );
     
         return res.status(result.status).json(result.trips);
-    } catch (error) {
+    } catch (error) {   
         return res.status(500).json({ error: "Internal server error" });
     }
 
