@@ -42,7 +42,7 @@ router.get("/get/:days", UserAuth, async (req, res )=>{
     /*  #swagger.tags = ['Finance']
         #swagger.summary = 'list user passenger'
         #swagger.description = 'Endpoint to list user finance'
-        #swagger.path = "finance/list"
+        #swagger.path = "finance/get/{days}"
     */
     try {
         const days = req.params.days;

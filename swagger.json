@@ -660,6 +660,36 @@
         }
       }
     },
+    "/payment-all/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "passenger/admin/list": {
       "get": {
         "tags": [
@@ -735,6 +765,12 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "gas_price": {
+                    "example": "any"
+                  },
+                  "km_l": {
+                    "example": "any"
+                  },
                   "passengers": {
                     "example": "any"
                   },
@@ -780,6 +816,23 @@
         "responses": {
           "500": {
             "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "passenger_id": {
+                    "example": "any"
+                  },
+                  "trip_id": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       }
