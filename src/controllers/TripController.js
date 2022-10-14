@@ -37,10 +37,10 @@ module.exports = {
                 gas_price,
                 km_l
             })
-            
+
             passengers.forEach(async element => {
                 const passenger_find = await Passenger.findById({ _id: element._id });
-
+                passanger = passenger_find
                 let history_trips = new Array();
                 let currentDebt = passenger_find.debt;
                 currentDebt += element.price;
@@ -60,13 +60,13 @@ module.exports = {
                 history_trips.push(createdTrip._id);
 
                 const passengerUpdate = await Passenger.findOneAndUpdate({_id: element._id},{ carpoolHistory: history_trips}, {new: true}); 
-                console.log(passengerUpdate)
 
             });
 
             const trip = await Trip.findById( createdTrip._id ).populate("passengers").populate("path");
-
-            return { trips: trip, status: 200 };
+            const passenger_trips = await Passenger_Trip.find({ trip_id: trip._id})
+            
+            return { trips: trip, passenger_trips, status: 200 };
         } else {       
             const path_find = await Path.findById({ _id: path });
             const user_find = await User.findById({ _id: owner._id });
@@ -128,11 +128,6 @@ module.exports = {
             const passenger_trip = await Passenger_Trip.findOne({ passenger_id, trip_id })
             
             const updated_passenger_trip = await Passenger_Trip.findByIdAndUpdate({_id : passenger_trip._id}, { hasPaid: true }, {new: true})
-            // const find_passenger = await Passenger.findById({ _id: passenger_id });
-            // let currentDebt = find_passenger.debt;
-            
-            // currentDebt -= value;
-            // const passenger = await Passenger.findOneAndUpdate({_id: passenger_id},{ isOnDebt: false, debt: currentDebt}, {new: true});
 
             return {passenger: updated_passenger_trip, status: 200 };
             

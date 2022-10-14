@@ -13,7 +13,7 @@ module.exports = {
             var paid = 0;
             filter = moment().subtract(options, 'd').locale("pt-br").format('dddd, DD/MM/YYYY')
 
-            const get_passengers = await Passenger_Trip.find({ owner }).distinct("passenger_id").then(async (object) => {
+            const get_passengers = await Passenger_Trip.find({ user :owner }).distinct("passenger_id").then(async (object) => {
                 var result = object.map(async function(item){
                     const passenger_trip = await Passenger_Trip.find({ passenger_id: item});
                     const get_passenger = await Passenger.findById(item); // Um passageiro
