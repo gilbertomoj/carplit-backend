@@ -58,7 +58,7 @@ router.post("/create", UserAuth, async (req, res) => {
 
 });
 
-router.put("/passenger/payment/:id", async (req, res) => {
+router.put("/passenger/payment/", async (req, res) => {
     /*  
         #swagger.tags = ['Trip']
         #swagger.summary = 'passenger payment'
@@ -66,11 +66,10 @@ router.put("/passenger/payment/:id", async (req, res) => {
         #swagger.path = "trip/passenger/payment/{ìd}"
     */
     try {
-        const id = req.params.id;
-        const { value } = req.body;
+        const { passenger_id, trip_id } = req.body;
 
-        const result = await TripController.passengerPayment(id, value);
-        return res.status(result.status).json(result.passenger);
+        const result = await TripController.passengerPayment(passenger_id, trip_id);
+        return res.status(result.status).json(result);
     } catch (error) {
         console.log(error)
         return res.status(500).json({error: "Internal server error"});

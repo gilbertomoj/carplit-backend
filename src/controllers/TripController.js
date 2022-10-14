@@ -123,14 +123,18 @@ module.exports = {
 
     },
 
-    async passengerPayment(passenger_id, value){
+    async passengerPayment(passenger_id, trip_id){
         try {
-            const find_passenger = await Passenger.findById({ _id: passenger_id });
-            let currentDebt = find_passenger.debt;
-            currentDebt -= value;
-            const passenger = await Passenger.findOneAndUpdate({_id: passenger_id},{ isOnDebt: false, debt: currentDebt}, {new: true});
+            const passenger_trip = await Passenger_Trip.findOne({ passenger_id, trip_id })
+            
+            const updated_passenger_trip = await Passenger_Trip.findByIdAndUpdate({_id : passenger_trip._id}, { hasPaid: true }, {new: true})
+            // const find_passenger = await Passenger.findById({ _id: passenger_id });
+            // let currentDebt = find_passenger.debt;
+            
+            // currentDebt -= value;
+            // const passenger = await Passenger.findOneAndUpdate({_id: passenger_id},{ isOnDebt: false, debt: currentDebt}, {new: true});
 
-            return {passenger: passenger, status: 200 };
+            return {passenger: updated_passenger_trip, status: 200 };
             
         } catch (error) {
             return { error: "Internal server error", status: 500 };

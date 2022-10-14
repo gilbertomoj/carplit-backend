@@ -11,14 +11,14 @@ const FinanceController = require("../controllers/FinanceController");
 const UserAuth = require("../middleware/UserAuth");
 const PathController = require("../controllers/PathController");
 
-router.get("/list/:opt", UserAuth, async (req, res )=>{
+router.get("/list/:days", UserAuth, async (req, res )=>{
     /*  #swagger.tags = ['Finance']
         #swagger.summary = 'list user passenger'
         #swagger.description = 'Endpoint to list user finance'
         #swagger.path = "finance/list"
     */
     try {
-        const options = req.params.opt;
+        const options = req.params.days;
         const user = req.user_id;
         const result = await FinanceController.loadFinance(user, options);
         // return res.status(result.status).json(result)
@@ -30,7 +30,24 @@ router.get("/list/:opt", UserAuth, async (req, res )=>{
 router.get("/pt", UserAuth, async (req, res )=>{
     try {
         const user = req.user_id;
-        const result = await FinanceController.passenger_trip(user);
+        const result = await FinanceController.listAll(user);
+        // return res.status(result.status).json(result)
+        return res.status(result.status).json(result)
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error" });
+    }
+})
+
+router.get("/get/:days", UserAuth, async (req, res )=>{
+    /*  #swagger.tags = ['Finance']
+        #swagger.summary = 'list user passenger'
+        #swagger.description = 'Endpoint to list user finance'
+        #swagger.path = "finance/list"
+    */
+    try {
+        const days = req.params.days;
+        const user = req.user_id;
+        const result = await FinanceController.loadFinance(user, days);
         // return res.status(result.status).json(result)
         return res.status(result.status).json(result)
     } catch (error) {
