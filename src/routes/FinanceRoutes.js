@@ -27,5 +27,15 @@ router.get("/list/:opt", UserAuth, async (req, res )=>{
         return res.status(500).json({ error: "Internal server error" });
     }
 })
+router.get("/pt", UserAuth, async (req, res )=>{
+    try {
+        const user = req.user_id;
+        const result = await FinanceController.passenger_trip(user);
+        // return res.status(result.status).json(result)
+        return res.status(result.status).json(result)
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error" });
+    }
+})
 
 module.exports = router;

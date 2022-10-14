@@ -2,6 +2,7 @@ const moment = require("moment")
 const User = require("../models/User");
 const Trip = require("../models/Trip");
 const Passenger = require("../models/Passenger");
+const Passenger_Trip = require("../models/Passenger_Trip")
 const Path = require("../models/Path");
 const bcript = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -44,13 +45,25 @@ module.exports = {
                 let currentDebt = passenger_find.debt;
                 currentDebt += element.price;
                 
+                const passenger_trips = await Passenger_Trip.create({
+                    passenger_id: element._id,
+                    trip_id: createdTrip._id,
+                    user: owner,
+                    value,
+                    hasPaid,
+                    date
+                })
+
+                console.log(passenger_trips)
+
                 history_trips = passenger_find.carpoolHistory;
                 history_trips.push(createdTrip._id);
 
-                const passengerUpdate = await Passenger.findOneAndUpdate({_id: element._id},{ isOnDebt: true, debt: currentDebt, carpoolHistory: history_trips}, {new: true}); 
+                const passengerUpdate = await Passenger.findOneAndUpdate({_id: element._id},{ carpoolHistory: history_trips}, {new: true}); 
                 console.log(passengerUpdate)
 
             });
+
             const trip = await Trip.findById( createdTrip._id ).populate("passengers").populate("path");
 
             return { trips: trip, status: 200 };
@@ -75,11 +88,21 @@ module.exports = {
                 let history_trips = new Array();
                 let currentDebt = passenger_find.debt;
                 currentDebt += element.price;
-
+                
                 history_trips = passenger_find.carpoolHistory;
                 history_trips.push(createdTrip._id);
 
-                const passengerUpdate = await Passenger.findOneAndUpdate({_id: element._id},{ isOnDebt: true, debt: currentDebt, carpoolHistory: history_trips}, {new: true}); 
+                const passenger_trips = await Passenger_Trip.create({
+                    passenger_id: element._id,
+                    trip_id: createdTrip._id,
+                    user: owner,
+                    value,
+                    date
+                })
+
+                console.log(passenger_trips)
+
+                const passengerUpdate = await Passenger.findOneAndUpdate({_id: element._id},{ carpoolHistory: history_trips}, {new: true}); 
             });
 
             let arr = [];
