@@ -40,7 +40,7 @@ module.exports = {
 
             passengers.forEach(async element => {
                 const passenger_find = await Passenger.findById({ _id: element._id });
-                passanger = passenger_find
+                // passanger = passenger_find
                 let history_trips = new Array();
                 let currentDebt = passenger_find.debt;
                 currentDebt += element.price;

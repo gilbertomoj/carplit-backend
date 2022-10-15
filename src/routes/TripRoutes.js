@@ -110,10 +110,22 @@ router.put("/passenger/payment/", async (req, res) => {
         const result = await TripController.passengerPayment(passenger_id, trip_id);
         return res.status(result.status).json(result);
     } catch (error) {
-        console.log(error)
         return res.status(500).json({error: "Internal server error"});
     }
 });
+
+router.delete("/delete/:trip_id", UserAuth, async (req, res) => {
+    try {
+        const user = req.user_id
+        const trip_id = req.params.trip_id
+
+        const result = await TripController.deleteTrip(user, trip_id);
+        return res.status(result.status).json(result);
+
+    } catch (error) {
+        return res.status(500).json({error: "Internal server error"});
+    }
+})
 
 router.get("/admin/list", UserAuth, async (req, res) => {
     /*  
