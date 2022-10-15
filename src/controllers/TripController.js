@@ -140,7 +140,21 @@ module.exports = {
     
     async payAllTrips(user_id, passenger_id){
         try {
-            const passenger_trips = await Passenger_Trip.find({ passenger_id });
+            const found_passenger = await Passenger.findById( passenger_id);
+            const permission = await permissions.checkPermission(
+                user_id,
+                found_passenger.owner.toString(),
+                "Você não tem permissão para deletar esta carona."
+            );
+            if (!permission.isValid) {
+                return {
+                    message: permission.message,
+                    status: permission.status,
+                };
+            } else {
+                try {
+
+                    const passenger_trips = await Passenger_Trip.find({passenger_id});
             
                     passenger_trips.forEach(async (element) => {
                         const updated_passenger_trip = await Passenger_Trip.findByIdAndUpdate({_id : element._id}, { hasPaid: true }, {new: true})
@@ -148,6 +162,13 @@ module.exports = {
                     })
         
                     return {message: "O usuário teve todas as contas pagas !", status: 200 };
+
+                } catch (error) {
+                    return { message: error, status: 400 };
+                }
+            }
+            
+
                     
         } catch (error) {
             return { error: "Internal server error", status: 500 };
