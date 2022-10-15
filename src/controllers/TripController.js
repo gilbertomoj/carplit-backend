@@ -140,10 +140,15 @@ module.exports = {
 
     async getTripDetail(trip_id){
         try {
-            const passenger_trip = await Passenger_Trip.find({ trip_id })
-            console.log(passenger_trip)
+            const passenger_trip = await Passenger_Trip.find({ trip_id }).populate("passenger_id")
+            const passengers = []
+
+            passenger_trip.forEach((element) => {
+                passengers.push({name : element.passenger_id.name, hasPaid: element.hasPaid, price: element.value})
+            })
+            
             return {
-                trips: passenger_trip,
+                trips: passengers,
                 status: 200,
             };
         } catch (error) {
