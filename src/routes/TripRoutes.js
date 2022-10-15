@@ -15,6 +15,7 @@ const TripController = require("../controllers/TripController");
 // Middlewares
 const UserAuth = require("../middleware/UserAuth");
 const Path = require("../models/Path");
+const Trip = require("../models/Trip");
 
 router.get("/list", UserAuth, async (req, res) => {
     /*  
@@ -29,6 +30,18 @@ router.get("/list", UserAuth, async (req, res) => {
 
     return res.status(result.status).json(result.trips);
 });
+
+router.get("/get/:detail", UserAuth, async (req,res)=>{
+    try {
+        const trip_id = req.params.detail
+        const result = await TripController.getTripDetail(trip_id)
+        
+        return res.status(result.status).json(result.trips);
+
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error" });
+    }
+})
 
 router.post("/create", UserAuth, async (req, res) => {
 /*  

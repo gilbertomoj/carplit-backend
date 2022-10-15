@@ -138,7 +138,19 @@ module.exports = {
 
     },
 
-    async getUserTips(owner) {
+    async getTripDetail(trip_id){
+        try {
+            const passenger_trip = await Passenger_Trip.find({ trip_id })
+            console.log(passenger_trip)
+            return {
+                trips: passenger_trip,
+                status: 200,
+            };
+        } catch (error) {
+            return { message: error, status: 400 };
+        }
+    },
+    async getUserTips(owner, trip_id) {
         try {
             let arr = [];
             const trip_list = await Trip.find({ owner }).distinct('date');   
