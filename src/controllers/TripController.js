@@ -137,7 +137,7 @@ module.exports = {
         }
 
     },
-
+    
     async payAllTrips(passenger_id){
         try {
             const passenger_trips = await Passenger_Trip.find({ passenger_id });
@@ -154,6 +154,37 @@ module.exports = {
         }
     },
 
+    async getPassengerTripDetails(passenger_id){
+        try {
+            const passenger = await Passenger.findById(passenger_id).populate({path: "carpoolHistory", populate : { path : 'path' }})
+            const passenger_trip = await Passenger_Trip.find({ passenger_id })
+
+            let object = [];
+
+            passenger.carpoolHistory.forEach(async function (element) {
+                var result = passenger_trip.filter((object) => {
+                    if(object.trip_id.toString() ===  element._id.toString()){
+                        return object
+                    }
+                })
+
+                if(result.length > 0){
+                    object.push({name_path: element.path.title, price: element.value, data: element.date, hasPaid: result[0].hasPaid})
+                }
+
+            })
+
+            // nome do trajeto 
+            // preço do trajeto
+            // data do trajeto
+            // haspaid da pessoa da carona
+            // console.log(object)
+            return {trip: object, status: 200 };
+        } catch (error) {
+            return { error: "Internal server error", status: 500 };
+        }
+    },
+    
     async getTripDetail(trip_id){
         try {
             const passenger_trip = await Passenger_Trip.find({ trip_id }).populate("passenger_id")
@@ -171,6 +202,7 @@ module.exports = {
             return { message: error, status: 400 };
         }
     },
+
     async getUserTips(owner, trip_id) {
         try {
             let arr = [];

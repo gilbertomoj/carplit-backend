@@ -83,6 +83,18 @@ router.put("/payall/:passenger_id", UserAuth, async (req,res)=>{
     }
 })
 
+router.get("/carpool/passenger/:passenger_id", async(req,res) => {
+    try {
+        const passenger_id = req.params.passenger_id;
+        
+        const result = await TripController.getPassengerTripDetails(passenger_id);
+
+        return res.status(result.status).json(result)
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error" });
+    }
+})
+
 router.put("/passenger/payment/", async (req, res) => {
     /*  
         #swagger.tags = ['Trip']
