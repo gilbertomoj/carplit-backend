@@ -144,7 +144,7 @@ module.exports = {
             const passengers = []
 
             passenger_trip.forEach((element) => {
-                passengers.push({name : element.passenger_id.name, hasPaid: element.hasPaid, price: element.value, _id: element.passenger_id._id})
+                passengers.push({name : element.passenger_id.name, hasPaid: element.hasPaid, price: element.value, _id: element.passenger_id._id, is_driver: element.passenger_id.isDriver})
             })
             
             return {
