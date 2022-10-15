@@ -66,7 +66,7 @@ module.exports = {
             const trip = await Trip.findById( createdTrip._id ).populate("passengers").populate("path");
             const passenger_trips = await Passenger_Trip.find({ trip_id: trip._id})
             
-            return { trips: trip, passenger_trips, status: 200 };
+            return { trips: trip, status: 200 };
         } else {       
             const path_find = await Path.findById({ _id: path });
             const user_find = await User.findById({ _id: owner._id });
@@ -118,9 +118,8 @@ module.exports = {
                 })
                 arr.push({date: element, data: itens});
             });
-            const passenger_trips = await Passenger_Trip.find({ trip_id: createdTrip._id})
             
-            return { trips: arr, passenger_trips, status: 200 };
+            return { trips: arr, status: 200 };
         }   
 
     },
