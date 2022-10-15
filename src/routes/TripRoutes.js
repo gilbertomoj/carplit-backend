@@ -73,9 +73,10 @@ router.post("/create", UserAuth, async (req, res) => {
 
 router.put("/payall/:passenger_id", UserAuth, async (req,res)=>{
     try {
+        const user = req.user_id;
         const passenger_id = req.params.passenger_id;
-        console.log(passenger_id)
-        const result = await TripController.payAllTrips(passenger_id);
+
+        const result = await TripController.payAllTrips(user, passenger_id);
 
         return res.status(result.status).json(result)
     } catch (error) {

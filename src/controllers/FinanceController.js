@@ -12,11 +12,16 @@ module.exports = {
             let balance = [];
             var paid = 0;
             filter = moment().subtract(options, 'd').locale("pt-br").format('dddd, DD/MM/YYYY')
-
-            const get_passengers = await Passenger_Trip.find({ user :owner }).distinct("passenger_id").then(async (object) => {
+            const passengers = await Passenger_Trip.find({ user: owner }).populate("passenger_id");
+            passengers.forEach((element) => {
+                paid += element.value
+                console.log(paid)
+            })
+            const get_passengers = await Passenger_Trip.find({ user: owner }).distinct("passenger_id").then(async (object) => {
                 var result = object.map(async function(item){
                     const passenger_trip = await Passenger_Trip.find({ passenger_id: item});
                     const get_passenger = await Passenger.findById(item); // Um passageiro
+
                     Promise.all([passenger_trip, get_passenger]).then((values) => {
                         var debt = 0;
                         values[0].forEach((element) => {
@@ -28,17 +33,25 @@ module.exports = {
                                 }
                             }
                         })
+
+                        // total_cost => total que o usuário recebeu dos passageiros
                         balance.push({ passenger: values[1].name, debt})
                     })
                     return balance
                 })
                 return await Promise.all(result)
             }) // Pegar cada usuário separadamente 
-            // const passenger_trips = await Passenger_Trip.find({ owner }); // Pegar cada usuário separadamente 
 
+            const passenger_trips = await Passenger_Trip.find({ owner }); // Pegar cada usuário separadamente 
+            let total_cost = 0
+            passenger_trips.forEach((element) => {
+                console.log(total_cost)
+                total_cost += element.value
+            })
             const object = {
-                passengers: get_passengers[0],
-                user_received: paid,
+                passengers: "get_passengers[0]",
+                user_received: "paid",
+                total_cost
             }
             
             return {passenger_trips: object, status: 200}

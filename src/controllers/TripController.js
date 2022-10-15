@@ -138,16 +138,33 @@ module.exports = {
 
     },
     
-    async payAllTrips(passenger_id){
+    async payAllTrips(user_id, passenger_id){
         try {
             const passenger_trips = await Passenger_Trip.find({ passenger_id });
+            const permission = await permissions.checkPermission(
+                user_id,
+                passenger_trips.owner,
+                "Você não tem permissão para deletar esta carona."
+            );
+            if (!permission.isValid) {
+                return {
+                    message: permission.message,
+                    status: permission.status,
+                };
+            } else {
+                try {
+                    passenger_trips.forEach(async (element) => {
+                        const updated_passenger_trip = await Passenger_Trip.findByIdAndUpdate({_id : element._id}, { hasPaid: true }, {new: true})
+                        console.log(updated_passenger_trip)
+                    })
+        
+                    return {message: "O usuário teve todas as contas pagas !", status: 200 };
+                    
+                } catch (error) {
+                    return { message: error, status: 400 };
+                }
+            }
 
-            passenger_trips.forEach(async (element) => {
-                const updated_passenger_trip = await Passenger_Trip.findByIdAndUpdate({_id : element._id}, { hasPaid: true }, {new: true})
-                console.log(updated_passenger_trip)
-            })
-
-            return {message: "O usuário teve todas as contas pagas !", status: 200 };
 
         } catch (error) {
             return { error: "Internal server error", status: 500 };
