@@ -3,23 +3,21 @@ const ApiUrl = "http://localhost:8080";
 let token = "";
 const obj = {
     name: "Carplit",
-    email: "test@carplitest.com",
+    email: "Test@carplit.com",
     password: "test@123",
     average_consumption: 14,
     fuel_per_liter: 11.4,
 };
 
-beforeAll(() => {
-    return request(ApiUrl)
-        .post("/user/login")
-        .send({
-            email: "gaaga@gmail.com",
-            password: "1234",
-        })
-        .expect(200)
-        .then((response) => {
-            expect(response.body.status).toEqual(200);
-        });
+describe("POST user/register", () => {
+    it("should return 200 and a confirmation message", () => {
+        return request(ApiUrl)
+            .post("/user/register")
+            .send(obj)
+            .then((response) => {
+                expect(response.body.status).toEqual(200);
+            });
+    });
 });
 
 describe("GET /user/login", () => {
@@ -27,11 +25,12 @@ describe("GET /user/login", () => {
         return request(ApiUrl)
             .post("/user/login")
             .send({
-                email: "gaaga@gmail.com",
-                password: "1234",
+                email: obj.email,
+                password: obj.password,
             })
             .expect(200)
             .then((response) => {
+                token = response.body.token;
                 expect(response.body.status).toEqual(200);
             });
     });
@@ -42,7 +41,7 @@ describe("POST user/verify/email", () => {
         return request(ApiUrl)
             .post("/user/verify/email")
             .send({
-                email: "gaaga@gmail.com",
+                email: obj.email,
             })
             .then((response) => {
                 expect(response.body.status).toEqual(400);
@@ -50,29 +49,14 @@ describe("POST user/verify/email", () => {
     });
 });
 
-describe("POST user/register", () => {
-    it("should return 200 and a confirmation message", () => {
+describe("DELETE user/delete", ()=>{
+    it("should return 200 and delete a user", ()=>{
         return request(ApiUrl)
-            .post("/user/register")
-            .send(obj)
-            .then((response) => {
-                console.log(response.body);
-                expect(response.body.status).toEqual(200);
-            });
-    });
-});
-
-describe("POST user/login", () => {
-    it("should return 200 and a confirmation message", () => {
-        return request(ApiUrl)
-            .post("/user/login")
-            .send({
-                email: "test@carplit.com",
-                password: "test@123",
+            .delete(`/user/delete/`)
+            .set('Authorization', `Bearer ${token}`)
+            .then((response)=>{
+                expect(response.status).toEqual(200);
+                expect(response.body).toEqual("Usuário deletado com sucesso");
             })
-            .then((response) => {
-                console.log(response.body);
-                expect(response.body.status).toEqual(200);
-            });
-    });
-});
+    })
+})

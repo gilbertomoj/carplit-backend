@@ -14,7 +14,6 @@ const PathController = require("../controllers/PathController");
 const UserAuth = require("../middleware/UserAuth");
 const Path = require("../models/Path");
 
-
 router.get("/list", UserAuth, async (req, res) => {
     /*  #swagger.tags = ['Path']
         #swagger.summary = 'list user paths'
@@ -23,6 +22,9 @@ router.get("/list", UserAuth, async (req, res) => {
     */
     const user = req.user_id;
     const result = await PathController.getUserPaths(user);
+
+    return res.status(result.status).json(result.paths);
+});
 
 router.post("/create", UserAuth, async (req, res) => {
     /*  
@@ -52,15 +54,15 @@ router.post("/create", UserAuth, async (req, res) => {
     const owner = await UserModel.findOne({ _id: req.user_id });
     const { title, totalDistance } = req.body;
     const result = await PathController.createPath(title, totalDistance, owner);
-    const formatedResult = {
-        title: result.path.title,
-        totalDistance: result.path.totalDistance,
-        owner: {
-            name: owner.name,
-            id: owner._id,
-        },
-    };
-    return res.json(formatedResult);
+    // const formatedResult = {
+    //     title: result.path.title,
+    //     totalDistance: result.path.totalDistance,
+    //     owner: {
+    //         name: owner.name,
+    //         id: owner._id,
+    //     },
+    // };
+    return res.status(result.status).json(result);
 });
 
 router.get("/retrieve/:id", UserAuth, async (req, res) => {
@@ -68,6 +70,13 @@ router.get("/retrieve/:id", UserAuth, async (req, res) => {
         #swagger.summary = 'retrieve path'
         #swagger.description = 'Endpoint to retrieve a path'
         #swagger.path = "path/retrieve/{id}"*/
+
+    const user = req.user_id;
+    const path_id = req.params.id;
+    const result = await PathController.getOnePath(user, path_id);
+
+    return res.status(result.status).json(result.path);
+});
 
 router.put("/update/:id", UserAuth, async (req, res) => {
     /*  #swagger.tags = ['Path']
@@ -78,14 +87,15 @@ router.put("/update/:id", UserAuth, async (req, res) => {
     const user = req.user_id;
     const path_id = req.params.id;
     const { title, totalDistance } = req.body;
-    const Path = await PathController.updatePath(
+    console.log(path_id);
+    const result = await PathController.updatePath(
         user,
         path_id,
         title,
         totalDistance
     );
 
-    return res.json(Path);
+    return res.status(result.status).json(result.updatedPath);
 });
 
 router.delete("/delete/:id", UserAuth, async (req, res) => {
@@ -96,9 +106,20 @@ router.delete("/delete/:id", UserAuth, async (req, res) => {
     const user = req.user_id;
     const path_id = req.params.id;
 
-    const Path = await PathController.deletePath(user, path_id);
+    const result = await PathController.deletePath(user, path_id);
 
-    return res.json(Path);
+    return res.status(result.status).json(result.message);
+});
+
+router.get("/admin/list", UserAuth, async (req, res) => {
+    /*  #swagger.tags = ['Admin']
+        #swagger.summary = 'list all paths'
+        #swagger.description = 'Endpoint to list all paths'
+        #swagger.path = "path/admin/list"
+    */
+    const result = await PathController.getPaths();
+
+    return res.status(result.status).json(result.paths);
 });
 
 module.exports = router;

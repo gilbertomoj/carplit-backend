@@ -11,8 +11,12 @@
       "description": "Local server"
     },
     {
-      "url": "http://carplit-backend.herokuapp.com",
+      "url": "https://carplit-backend.up.railway.app/",
       "description": "Main server"
+    },
+    {
+      "url": "http://carplit-backend.herokuapp.com",
+      "description": "Secondary server"
     }
   ],
   "tags": [
@@ -31,35 +35,17 @@
     {
       "name": "Trip",
       "description": "Operations about trip"
+    },
+    {
+      "name": "Finance",
+      "description": "Operations about finance"
+    },
+    {
+      "name": "Admin",
+      "description": "Admin operations"
     }
   ],
   "paths": {
-    "user/list": {
-      "get": {
-        "tags": [
-          "User"
-        ],
-        "summary": "list all users",
-        "description": "Endpoint to list all users",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
     "user/verify/email": {
       "post": {
         "tags": [
@@ -69,8 +55,8 @@
         "description": "Endpoint to verify if given email already exist.",
         "parameters": [],
         "responses": {
-          "200": {
-            "description": "OK"
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "requestBody": {
@@ -98,8 +84,8 @@
         "description": "Endpoint to register a user",
         "parameters": [],
         "responses": {
-          "200": {
-            "description": "OK"
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "requestBody": {
@@ -139,8 +125,8 @@
         "description": "Endpoint to login",
         "parameters": [],
         "responses": {
-          "200": {
-            "description": "OK"
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "requestBody": {
@@ -187,16 +173,16 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
     },
-    "user/update/{id}": {
+    "user/update": {
       "put": {
         "tags": [
           "User"
@@ -204,14 +190,6 @@
         "summary": "update user",
         "description": "Endpoint to update user",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "authorization",
             "in": "header",
@@ -221,9 +199,92 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "401": {
+            "description": "Unauthorized"
           },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "example": "any"
+                  },
+                  "email": {
+                    "example": "any"
+                  },
+                  "average_consumption": {
+                    "example": "any"
+                  },
+                  "fuel_per_liter": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "user/delete": {
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "update user",
+        "description": "Endpoint to update user",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/recover_password": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "user/admin/list": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "list all users",
+        "description": "Endpoint to list all users",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
           "401": {
             "description": "Unauthorized"
           }
@@ -247,9 +308,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -273,9 +331,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -324,9 +379,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -358,9 +410,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -409,16 +458,36 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
         }
       }
     },
-    "passenger/get": {
+    "path/admin/list": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "list all paths",
+        "description": "Endpoint to list all paths",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "passenger/list": {
       "get": {
         "tags": [
           "Passenger"
@@ -435,9 +504,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -461,9 +527,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -512,9 +575,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -546,9 +606,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           }
@@ -597,9 +654,59 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/payment-all/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "passenger/admin/list": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "list all passengers",
+        "description": "Endpoint to list all passengers",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
           "401": {
             "description": "Unauthorized"
           }
@@ -611,6 +718,7 @@
         "tags": [
           "Trip"
         ],
+        "summary": "list user trips",
         "description": "Endpoint to list user trips",
         "parameters": [
           {
@@ -622,9 +730,130 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "trip/create": {
+      "post": {
+        "tags": [
+          "Trip"
+        ],
+        "description": "Endpoint to create a trip",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
           },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "gas_price": {
+                    "example": "any"
+                  },
+                  "km_l": {
+                    "example": "any"
+                  },
+                  "passengers": {
+                    "example": "any"
+                  },
+                  "path": {
+                    "example": "any"
+                  },
+                  "date": {
+                    "example": "any"
+                  },
+                  "value": {
+                    "example": "any"
+                  },
+                  "isOwnerIncluded": {
+                    "example": "any"
+                  },
+                  "isFixedValue": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "trip/passenger/payment/{ìd}": {
+      "put": {
+        "tags": [
+          "Trip"
+        ],
+        "summary": "passenger payment",
+        "description": "Endpoint to pay a passenger",
+        "parameters": [
+          {
+            "name": "ìd",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "passenger_id": {
+                    "example": "any"
+                  },
+                  "trip_id": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "trip/admin/list": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "list all trips",
+        "description": "Endpoint to list alls trips",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
           "401": {
             "description": "Unauthorized"
           }

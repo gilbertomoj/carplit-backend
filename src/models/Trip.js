@@ -1,14 +1,15 @@
 const mongoose = require("mongoose");
+const moment = require("moment")
+
+
 const Schema = mongoose.Schema;
 
 const Trip = new Schema({
-    data: {
-        type: Date,
-        required: true,
-    },
-    title: {
+    date: {
         type: String,
+        default: moment().locale("pt-br").format('dddd, DD/MM/YYYY'),
         required: true,
+        hidden: true,
     },
     passengers: [
         {
@@ -31,7 +32,6 @@ const Trip = new Schema({
     value: {
         type: Number,
         default: 0.0,
-        required: true,
     },
     isOwnerIncluded: {
         type: Boolean,
@@ -43,6 +43,14 @@ const Trip = new Schema({
         default: false,
         required: true,
     },
+    gas_price: {
+        type: Number,
+        required: true,
+    },
+    km_l: {
+        type: Number,
+        required: true
+    }
 });
 
 module.exports = mongoose.model("trip", Trip);

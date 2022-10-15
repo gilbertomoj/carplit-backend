@@ -18,8 +18,12 @@ const doc = {
             description: "Local server",
         },
         {
-            url: "http://carplit-backend.herokuapp.com",
+            url: "https://carplit-backend.up.railway.app/",
             description: "Main server",
+        },
+        {
+            url: "http://carplit-backend.herokuapp.com",
+            description: "Secondary server",
         },
     ],
     tags: [
@@ -38,6 +42,14 @@ const doc = {
         {
             name: "Trip",
             description: "Operations about trip",
+        },
+        {
+            name: "Finance",
+            description: "Operations about finance",
+        },
+        {
+            name: "Admin",
+            description: "Admin operations",
         },
     ],
 };

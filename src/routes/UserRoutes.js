@@ -12,18 +12,6 @@ const TripController = require("../controllers/TripController");
 const UserAuth = require("../middleware/UserAuth");
 const PathController = require("../controllers/PathController");
 
-router.get("/list", UserAuth, async (req, res) => {
-    // ADMIN ROOT
-    /*
-    #swagger.tags = ['User']
-    #swagger.summary = 'list all users'
-    #swagger.description = 'Endpoint to list all users'
-    #swagger.path = "user/list"
-    */
-    const result = await UserModel.find();
-    return res.json(result);
-});
-
 router.post("/verify/email", async (req, res) => {
     /*  #swagger.tags = ['User']
         #swagger.summary = 'verify email'
@@ -44,11 +32,16 @@ router.post("/verify/email", async (req, res) => {
           }
         }
     */
-    const { email } = req.body;
+  try {
+      const { email } = req.body;
 
-    const result = await UserController.verifyEmail(email);
+      const result = await UserController.verifyEmail(email);
 
-    return res.json(result);
+      return res.status(result.status).json(result);
+  } catch (error) {
+      return res.status(500).json({ error: error.message });
+  }
+
 });
 
 router.post("/register", async (req, res) => {
@@ -84,18 +77,21 @@ router.post("/register", async (req, res) => {
         }
         
     */
-    const { name, email, password, average_consumption, fuel_per_liter } =
-        req.body;
-
-    const result = await UserController.createUser(
-        name,
-        email,
-        password,
-        average_consumption,
-        fuel_per_liter
-    );
-
-    return res.json(result);
+    try {
+      const { name, email, password, average_consumption, fuel_per_liter } =
+      req.body;
+      const result = await UserController.createUser(
+          name,
+          email,
+          password,
+          average_consumption,
+          fuel_per_liter
+      );
+      console.log(result.status);
+      return res.status(result.status).json(result);
+    } catch (error) {
+      return res.status(500).json({ message: error });
+    }
 });
 
 router.post("/login", async (req, res) => {
@@ -121,61 +117,16 @@ router.post("/login", async (req, res) => {
           }
         }
     */
+    try {
+        const { email, password } = req.body;
+      
+        const result = await UserController.login(email, password);
+        return res.status(result.status).json(result);
+    } catch (error) {
+        return res.status(500).json({ message: error });
+    }
 
-    const { email, password } = req.body;
-
-    const result = await UserController.login(email, password);
-    return res.json(result);
 });
-
-// router.post("/trips/create", UserAuth, async (req, res) => {
-//     const { title, driver, passengers, total_distance, data } = req.body;
-//     const result = await TripController.createTrips(
-//         title,
-//         driver,
-//         passengers,
-//         total_distance,
-//         data
-//     );
-//     // Pegar as trips apenas do usuário logado
-//     return res.json(result);
-// });
-
-// router.get("/trips/get", UserAuth, async (req, res) => {
-//     const { user_id } = req;
-
-//     const result = await TripController.getTrips(user_id);
-//     // Pegar as trips apenas do usuário logado
-//     return res.json(result);
-// });
-
-// router.post("/trips/create", UserAuth, async (req, res) => {
-//     const { title, driver, passangers, totalDistance, data } = req.body;
-
-//     const result = await TripController.createTrips(
-//         title,
-//         driver,
-//         passangers,
-//         totalDistance,
-//         data
-//     );
-//     // Pegar as trips apenas do usuário logado
-//     return res.json(result);
-// });
-
-// router.get("user/paths/get", UserAuth, async (req, res) => {
-//     const { user_id } = req;
-
-//     const result = await PathController.getUserPaths(user_id);
-//     // Pegar as trips apenas do usuário logado
-//     return res.json(result);
-// });
-
-// router.get("/users/get/:nome", UserAuth, async (req, res) => {
-//     const nome = req.params.nome;
-//     const User = await UserModel.findOne({ where: { nome } });
-//     res.send(User);
-// });
 
 router.get("/retrieve/:id", UserAuth, async (req, res) => {
     /*
@@ -184,32 +135,76 @@ router.get("/retrieve/:id", UserAuth, async (req, res) => {
     #swagger.description = 'Endpoint to retrieve user'
     #swagger.path = "user/retrieve/{id}"
     */
-    const id = req.params.id;
-    const User = await UserModel.findOne({ where: { id } });
-    res.send(User);
+    try {
+        const id = req.params.id;
+        const result = await UserModel.findOne({ where: { id } });
+        return res.status(result.status).json(result.user);
+    } catch (error){
+        return res.status(500).json({ message: error });      
+    }
 });
 
-router.put("/update/:id", UserAuth, async (req, res) => {
+router.put("/update", UserAuth, async (req, res) => {
     /*
     #swagger.tags = ['User']
     #swagger.summary = 'update user'
     #swagger.description = 'Endpoint to update user'
-    #swagger.path = "user/update/{id}"
+    #swagger.path = "user/update"
     */
-    const id = req.params.id;
-    const obj = req.body;
-    const result = await UserController.updateUser(id, obj);
+   
+    const user = req.user_id;
 
-    return res.json(result);
+    try {
+        const { name, email, average_consumption, fuel_per_liter } = req.body;
+        const result = await UserController.updateUser(
+          user,
+          name,
+          email,
+          average_consumption,
+          fuel_per_liter
+        );
+        return res.status(result.status).json(result.message);
+    } catch (error){
+        return res.status(500).json({ message: error });
+    }
+
 });
 
-// router.delete("/delete/:id", UserAuth, async (req, res) => {
-//     /*
-//     #swagger.tags = ['User']
-//     #swagger.summary = 'delete user'
-//     #swagger.description = 'Endpoint to delete user'
-//     #swagger.path = "user/delete/{id}"
-//     */
-// });
+router.delete("/delete", UserAuth, async (req, res) => {
+  /*
+  #swagger.tags = ['User']
+  #swagger.summary = 'update user'
+  #swagger.description = 'Endpoint to update user'
+  #swagger.path = "user/delete"
+  */
+  try {
+    const id = req.user_id;
+    const result = await UserController.deleteUser(id);
+    return res.status(result.status).json(result.message);
+  } catch (error){
+      return res.status(500).json({ message: error });
+  }
+});
+
+router.get("/recover_password", async (req, res)=>{
+    try {
+        const { email } = req.body;
+        const result = await UserController.recoverPassword(email);
+        return res.status(result.status).json(result.message); 
+    } catch (error) {
+        return res.status(500).json({ message: error });
+    }
+})
+
+router.get("/admin/list", UserAuth, async (req, res) => {
+    /*
+  #swagger.tags = ['Admin']
+  #swagger.summary = 'list all users'
+  #swagger.description = 'Endpoint to list all users'
+  #swagger.path = "user/admin/list"
+  */
+    const result = await UserController.getUsers();
+    return res.status(result.status).json(result.users);
+});
 
 module.exports = router;

@@ -17,13 +17,13 @@ router.get("/list", UserAuth, async (req, res) => {
     /*  #swagger.tags = ['Passenger']
         #swagger.summary = 'list user passenger'
         #swagger.description = 'Endpoint to list user passengers'
-        #swagger.path = "passenger/get"
+        #swagger.path = "passenger/list"
     */
 
     const user = req.user_id;
     const result = await PassengerController.getUserPassengers(user);
 
-    return res.json(result);
+    return res.status(result.status).json(result.passengers);
 });
 
 router.post("/create", UserAuth, async (req, res) => {
@@ -59,7 +59,7 @@ router.post("/create", UserAuth, async (req, res) => {
         owner._id
     );
 
-    return res.json(result);
+    return res.status(result.status).json(result);
 });
 
 router.get("/retrieve/:id", UserAuth, async (req, res) => {
@@ -76,7 +76,7 @@ router.get("/retrieve/:id", UserAuth, async (req, res) => {
         passenger_id
     );
 
-    return res.json(result);
+    return res.status(result.status).json(result.passenger);
 });
 
 router.put("/update/:id", UserAuth, async (req, res) => {
@@ -90,14 +90,14 @@ router.put("/update/:id", UserAuth, async (req, res) => {
     const passenger_id = req.params.id;
     const { name, address } = req.body;
 
-    const Passenger = await PassengerController.updatePassenger(
+    const result = await PassengerController.updatePassenger(
         user,
         passenger_id,
         name,
         address
     );
 
-    res.send(Passenger);
+    return res.status(result.status).json(result.updatedPassenger);
 });
 
 router.delete("/delete/:id", UserAuth, async (req, res) => {
@@ -106,15 +106,40 @@ router.delete("/delete/:id", UserAuth, async (req, res) => {
         #swagger.description = 'Endpoint to delete a passenger'
         #swagger.path = "passenger/delete/{id}"
     */
-
     const user = req.user_id;
     const passenger_id = req.params.id;
 
-    const Passenger = await PassengerController.deletePassenger({
-        where: { passenger_id },
-    });
+    const result = await PassengerController.deletePassenger(
+        user,
+        passenger_id
+    );
 
-    res.send(Passenger);
+    return res.status(result.status).json(result.deletedPassenger);
+});
+
+router.put("/payment-all/:id", UserAuth, async (req, res) => {
+    try {
+        const id = req.params.id;
+        const user = req.user_id;
+        
+        const result = await PassengerController.updateAllDebts(user, id);
+
+        return res.status(result.status).json(result);
+    
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+})
+
+router.get("/admin/list", UserAuth, async (req, res) => {
+    /*  #swagger.tags = ['Admin']
+        #swagger.summary = 'list all passengers'
+        #swagger.description = 'Endpoint to list all passengers'
+        #swagger.path = "passenger/admin/list"
+    */
+    const result = await PassengerController.getPassengers();
+
+    return res.status(result.status).json(result.passengers);
 });
 
 module.exports = router;

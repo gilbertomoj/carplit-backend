@@ -16,14 +16,7 @@ const Passenger = new Schema({
         type: String,
         required: true,
     },
-    isOnDebt: {
-        type: Boolean,
-        default: false,
-    },
-    debt: {
-        type: Number,
-        default: 0.0,
-    },
+
     owner: {
         type: Schema.Types.ObjectId,
         ref: "user",
@@ -31,6 +24,13 @@ const Passenger = new Schema({
         hidden: true,
         immutable: true,
     },
+    carpoolHistory: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "trip",
+            required: false,
+        },
+    ],
 });
 
 module.exports = mongoose.model("passenger", Passenger);
