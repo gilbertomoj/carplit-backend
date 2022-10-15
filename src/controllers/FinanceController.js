@@ -15,8 +15,9 @@ module.exports = {
             const passengers = await Passenger_Trip.find({ user: owner }).populate("passenger_id");
             passengers.forEach((element) => {
                 paid += element.value
-                console.log(paid)
             })
+            console.log(paid)
+
             const get_passengers = await Passenger_Trip.find({ user: owner }).distinct("passenger_id").then(async (object) => {
                 var result = object.map(async function(item){
                     const passenger_trip = await Passenger_Trip.find({ passenger_id: item});
@@ -45,12 +46,11 @@ module.exports = {
             const passenger_trips = await Passenger_Trip.find({ owner }); // Pegar cada usuário separadamente 
             let total_cost = 0
             passenger_trips.forEach((element) => {
-                console.log(total_cost)
                 total_cost += element.value
             })
             const object = {
-                passengers: "get_passengers[0]",
-                user_received: "paid",
+                passengers: get_passengers[0],
+                user_received: paid,
                 total_cost
             }
             
