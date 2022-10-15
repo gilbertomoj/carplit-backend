@@ -184,9 +184,11 @@ module.exports = {
                         return object
                     }
                 })
-
+                
                 if(result.length > 0){
-                    object.push({name_path: element.path.title, price: element.value, data: element.date, hasPaid: result[0].hasPaid, id: result[0]._id})
+                    object.push({name_path: element.path.title, price: element.value, data: element.date, hasPaid: result[0].hasPaid, id: result[0].trip_id})
+                    const foundTrip = await Trip.findById( result[0].trip_id )
+                    console.log(foundTrip)
                 }
 
             })
