@@ -35,7 +35,7 @@ router.get("/get/:detail", UserAuth, async (req,res)=>{
     try {
         const trip_id = req.params.detail
         const result = await TripController.getTripDetail(trip_id)
-        
+
         return res.status(result.status).json(result.trips);
 
     } catch (error) {
@@ -70,6 +70,18 @@ router.post("/create", UserAuth, async (req, res) => {
     }
 
 });
+
+router.put("/payall/:passenger_id", UserAuth, async (req,res)=>{
+    try {
+        const passenger_id = req.params.passenger_id;
+        console.log(passenger_id)
+        const result = await TripController.payAllTrips(passenger_id);
+
+        return res.status(result.status).json(result)
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error" });
+    }
+})
 
 router.put("/passenger/payment/", async (req, res) => {
     /*  
