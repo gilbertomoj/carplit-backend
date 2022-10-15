@@ -51,7 +51,7 @@ router.post("/create", UserAuth, async (req, res) => {
             owner
         );
     
-        return res.status(result.status).json(result.trips);
+        return res.status(result.status).json(result);
     } catch (error) {   
         return res.status(500).json({ error: "Internal server error" });
     }

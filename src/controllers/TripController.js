@@ -118,7 +118,9 @@ module.exports = {
                 })
                 arr.push({date: element, data: itens});
             });
-            return { trips: arr, status: 200 };
+            const passenger_trips = await Passenger_Trip.find({ trip_id: createdTrip._id})
+            
+            return { trips: arr, passenger_trips, status: 200 };
         }   
 
     },
