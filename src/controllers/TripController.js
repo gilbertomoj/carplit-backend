@@ -186,7 +186,7 @@ module.exports = {
                 })
 
                 if(result.length > 0){
-                    object.push({name_path: element.path.title, price: element.value, data: element.date, hasPaid: result[0].hasPaid})
+                    object.push({name_path: element.path.title, price: element.value, data: element.date, hasPaid: result[0].hasPaid, id: result[0]._id})
                 }
 
             })

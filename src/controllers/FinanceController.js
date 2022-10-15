@@ -14,6 +14,7 @@ module.exports = {
             var total_cost = 0;
             filter = moment().subtract(options, 'd').locale("pt-br").format('dddd, DD/MM/YYYY')
             const passengers = await Passenger_Trip.find({ user: owner }).populate("passenger_id");
+            
             passengers.forEach((element) => {
                 total_cost += element.value
             })
