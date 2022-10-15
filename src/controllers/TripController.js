@@ -127,8 +127,8 @@ module.exports = {
     async passengerPayment(passenger_id, trip_id){
         try {
             const passenger_trip = await Passenger_Trip.findOne({ passenger_id, trip_id })
-            
-            const updated_passenger_trip = await Passenger_Trip.findByIdAndUpdate({_id : passenger_trip._id}, { hasPaid: true }, {new: true})
+
+            const updated_passenger_trip = await Passenger_Trip.findByIdAndUpdate({_id : passenger_trip._id}, { hasPaid: !passenger_trip.hasPaid }, {new: true})
 
             return {passenger: updated_passenger_trip, status: 200 };
             
@@ -136,6 +136,14 @@ module.exports = {
             return { error: "Internal server error", status: 500 };
         }
 
+    },
+
+    async payAllTrips(passenger_id){
+        try {
+            // Pagar todas as contas de uma pessoa
+        } catch (error) {
+            return { error: "Internal server error", status: 500 };
+        }
     },
 
     async getTripDetail(trip_id){
@@ -146,7 +154,7 @@ module.exports = {
             passenger_trip.forEach((element) => {
                 passengers.push({name : element.passenger_id.name, hasPaid: element.hasPaid, price: element.value, _id: element.passenger_id._id, is_driver: element.passenger_id.isDriver})
             })
-            
+
             return {
                 trips: passengers,
                 status: 200,
