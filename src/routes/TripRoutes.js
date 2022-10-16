@@ -136,28 +136,9 @@ router.get("/admin/list", UserAuth, async (req, res) => {
         #swagger.description = 'Endpoint to list alls trips'
         #swagger.path = "trip/admin/list"
     */
-   
-    const user = "634c7039414d3596916659bc"
-    // const currentDate = moment().locale("pt-br").format()
-    // const filteredDate = moment().subtract(7, 'd').locale("pt-br").format('dddd, DD/MM/YYYY')
-    // var currDate = new Date("2022-10-16").toISOString()
-    // var aft = new Date("2022-09-16").toISOString()
 
-    const passenger_trips = await Passenger_Trip.find({user});
-    const results = await Trip.find({ owner: user})
-    let acumulador = 0;
-    passenger_trips.forEach(async (element) => {
-        var auxDate = element.date.split(", ")
-        var aux = auxDate[1].split("/")
-
-        const filter = moment().subtract(30, 'd').locale("pt-br").format("YYYY-MM-DD")
-
-        if(moment(`${aux[2]}-${aux[1]}-${aux[0]}`).isSameOrAfter(filter)){
-            acumulador += element.value     
-        }
-    })
-    console.log(acumulador)
-    
+    const trip_solo = await Trip.find({_id:"634c88ec1668aab13d4b413c"})
+    console.log(trip_solo)
     const result = await Trip.find({ owner: req.user_id })
 
     return res.status(200).json(result);

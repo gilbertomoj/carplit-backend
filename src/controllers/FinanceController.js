@@ -16,6 +16,8 @@ module.exports = {
 
             const passengers = await Passenger_Trip.find({ user: owner }).populate("passenger_id");
             
+            const findTrips = await Trips.find({ owner })
+
             passengers.forEach((element) => {
                 var auxDate = element.date.split(", ")
                 var aux = auxDate[1].split("/")
@@ -24,8 +26,20 @@ module.exports = {
                     total_cost += element.value     
                 }
             })
-            console.log(total_cost)
+            
+            findTrips.forEach((element) => {
+                if(element.passengers.length == 0){
+                    var auxDate = element.date.split(", ")
+                    var aux = auxDate[1].split("/")
+            
+                    if(moment(`${aux[2]}-${aux[1]}-${aux[0]}`).isSameOrAfter(filter)){
+                        total_cost += element.value     
+                    }
+                }
+            })
 
+
+            
             const get_passengers = await Passenger_Trip.find({ user: owner }).distinct("passenger_id").then(async (object) => {
                 var result = object.map(async function(item){
                     const passenger_trip = await Passenger_Trip.find({ passenger_id: item});
