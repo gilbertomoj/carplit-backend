@@ -12,7 +12,8 @@ module.exports = {
             let balance = [];
             var paid = 0;
             var total_cost = 0;
-            filter = moment().subtract(options, 'd').locale("pt-br").format('dddd, DD/MM/YYYY')
+            const filter = moment().subtract(366, 'd').locale("pt-br").format("YYYY-MM-DD")
+
             const passengers = await Passenger_Trip.find({ user: owner }).populate("passenger_id");
             
             passengers.forEach((element) => {
@@ -28,7 +29,11 @@ module.exports = {
                     Promise.all([passenger_trip, get_passenger]).then((values) => {
                         var debt = 0;
                         values[0].forEach((element) => {
-                            if(element.date >= filter){
+
+                            var auxDate = element.date.split(", ")
+                            var aux = auxDate[1].split("/")
+
+                            if(moment(`${aux[2]}-${aux[1]}-${aux[0]}`).isSameOrAfter(filter)){
                                 if( element.hasPaid ){
                                     paid += element.value; 
                                 }else{
