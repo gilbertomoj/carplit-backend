@@ -71,7 +71,7 @@ module.exports = {
 
             // const passenger_trips = await Passenger_Trip.find({ owner }); // Pegar cada usuário separadamente 
             let diff = 0
-            
+
             if(total_cost > paid){
                 diff = paid
             }else{
@@ -82,7 +82,8 @@ module.exports = {
                 passengers: get_passengers[0],
                 user_received: paid,
                 total_cost,
-                saved: diff
+                saved: diff,
+                ride_balance: total_cost - paid
             }
             
 
