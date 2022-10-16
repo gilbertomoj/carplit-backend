@@ -83,7 +83,7 @@ module.exports = {
                 user_received: paid,
                 total_cost,
                 saved: diff,
-                ride_balance: total_cost - paid
+                ride_balance: paid - total_cost
             }
             
 
