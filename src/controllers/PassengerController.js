@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const config = require("../config/auth");
 const permissions = require("../config/check_permission");
 const check_permission = require("../config/check_permission");
+const Passenger_Trip = require("../models/Passenger_Trip");
 require("dotenv").config();
 
 module.exports = {
@@ -104,6 +105,7 @@ module.exports = {
     async deletePassenger(user, id) {
         try {
             const passenger = await Passenger.findById(id);
+            console.log(passenger)
             const permission = await permissions.checkPermission(
                 user,
                 passenger.owner,
@@ -115,7 +117,13 @@ module.exports = {
                     status: permission.status,
                 };
             } else {
+
                 const deletedPassenger = await Passenger.findByIdAndDelete(id);
+                const foundPassengerTrips = await Passenger_Trip.find({ passenger_trip: id})
+                foundPassengerTrips.forEach(async (element)=>{
+                    const deletePassengers = await Passenger_Trip.findOneAndDelete( element.passenger_id )
+                    console.log("deletado")
+                })
                 return {
                     message: "Passageiro deletado com sucesso",
                     status: 200,

@@ -106,15 +106,19 @@ router.delete("/delete/:id", UserAuth, async (req, res) => {
         #swagger.description = 'Endpoint to delete a passenger'
         #swagger.path = "passenger/delete/{id}"
     */
-    const user = req.user_id;
-    const passenger_id = req.params.id;
+   try {
+        const user = req.user_id;
+        const passenger_id = req.params.id;
+        const result = await PassengerController.deletePassenger(
+            user,
+            passenger_id
+        );
 
-    const result = await PassengerController.deletePassenger(
-        user,
-        passenger_id
-    );
+    return res.status(result.status).json(result.message);
+   } catch (error) {
+    return res.status(400).json({ error: error.message });
+   }
 
-    return res.status(result.status).json(result.deletedPassenger);
 });
 
 router.put("/payment-all/:id", UserAuth, async (req, res) => {
