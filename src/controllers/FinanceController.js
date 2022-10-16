@@ -15,7 +15,7 @@ module.exports = {
             const filter = moment().subtract(options, 'd').locale("pt-br").format("YYYY-MM-DD")
 
             const passengers = await Passenger_Trip.find({ user: owner }).populate("passenger_id");
-            
+
             const findTrips = await Trips.find({ owner })
 
             passengers.forEach((element) => {
@@ -70,13 +70,22 @@ module.exports = {
             }) // Pegar cada usuário separadamente 
 
             // const passenger_trips = await Passenger_Trip.find({ owner }); // Pegar cada usuário separadamente 
+            let diff = 0
+            
+            if(total_cost > paid){
+                diff = paid
+            }else{
+                diff = total_cost
+            }
 
             const object = {
                 passengers: get_passengers[0],
                 user_received: paid,
-                total_cost
+                total_cost,
+                saved: diff
             }
             
+
             return {passenger_trips: object, status: 200}
 
         } catch (error) {
