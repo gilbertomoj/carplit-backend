@@ -27,7 +27,8 @@ module.exports = {
                 const token = jwt.sign({ id: user.id }, config.secret, {
                     expiresIn: 86400,
                 });
-                return { token, status: 200 };
+                user_name = user.name
+                return {user_name, token, status: 200 };
             }
         } catch (error) {
             return { message: error, status: 400 };
@@ -68,7 +69,8 @@ module.exports = {
                 });
                 average_consumption = userExists.average_consumption
                 fuel_per_liter = userExists.fuel_per_liter
-                return { average_consumption, fuel_per_liter, token, status: 200 };
+                user_name = userExists.name
+                return { average_consumption, fuel_per_liter, user_name, token, status: 200 };
             }
         }
     },
