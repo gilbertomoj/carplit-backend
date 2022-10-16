@@ -135,9 +135,10 @@ router.get("/admin/list", UserAuth, async (req, res) => {
         #swagger.path = "trip/admin/list"
     */
 
-    const result = await TripController.getTrips();
 
-    return res.status(result.status).json(result.trips);
+    const result = await Trip.find({ owner: req.user_id })
+
+    return res.status(200).json(result);
 });
 
 module.exports = router;

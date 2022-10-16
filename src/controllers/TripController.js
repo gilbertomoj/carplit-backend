@@ -298,10 +298,13 @@ module.exports = {
             } else {
                 try {
                     const DeletedTrip = await Trip.findByIdAndDelete(id);
-
+                    
                     const FinancesFix = await Passenger_Trip.find({ trip_id : trip._id });
                     FinancesFix.forEach(async (element) => {
                         const deleteFinance = await Passenger_Trip.findByIdAndDelete( element._id )
+                        trip.passengers.forEach(async (element) => {
+                            const deleteCarpool = await Passenger.updateOne({_id : element}, { $pullAll: {carpoolHistory: [{ _id: trip._id }]}})
+                        })
                     })
                     
                     return {
