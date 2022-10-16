@@ -12,12 +12,17 @@ module.exports = {
             let balance = [];
             var paid = 0;
             var total_cost = 0;
-            const filter = moment().subtract(366, 'd').locale("pt-br").format("YYYY-MM-DD")
+            const filter = moment().subtract(options, 'd').locale("pt-br").format("YYYY-MM-DD")
 
             const passengers = await Passenger_Trip.find({ user: owner }).populate("passenger_id");
             
             passengers.forEach((element) => {
-                total_cost += element.value
+                var auxDate = element.date.split(", ")
+                var aux = auxDate[1].split("/")
+        
+                if(moment(`${aux[2]}-${aux[1]}-${aux[0]}`).isSameOrAfter(filter)){
+                    total_cost += element.value     
+                }
             })
             console.log(total_cost)
 
