@@ -25,7 +25,9 @@ module.exports = {
     async createTrip(gas_price, km_l, passengers, date, path, value, isOwnerIncluded, isFixedValue, owner) {
         // 
         if(isFixedValue) {
-
+            const path_find = await Path.findById({ _id: path });
+            const user_find = await User.findById({ _id: owner._id });
+            
             const createdTrip = await Trip.create({
                 date,
                 path,
@@ -50,7 +52,6 @@ module.exports = {
                     trip_id: createdTrip._id,
                     user: owner,
                     value,
-                    hasPaid,
                     date
                 })
 
@@ -63,10 +64,20 @@ module.exports = {
 
             });
 
-            const trip = await Trip.findById( createdTrip._id ).populate("passengers").populate("path");
-            const passenger_trips = await Passenger_Trip.find({ trip_id: trip._id})
+            let arr = [];
+            const trip_list = await Trip.find({ owner }).distinct('date');   
+            const trips = await Trip.find({ owner }).populate("passengers").populate("path");
+            trip_list.forEach(element => {
+                let itens = []
+                trips.forEach(trip_element => {
+                    if(element == trip_element.date){
+                        itens.push(trip_element);
+                    }
+                })
+                arr.push({date: element, data: itens});
+            });
             
-            return { trips: trip, status: 200 };
+            return { trips: arr, status: 200 };
         } else {       
             const path_find = await Path.findById({ _id: path });
             const user_find = await User.findById({ _id: owner._id });
@@ -287,6 +298,12 @@ module.exports = {
             } else {
                 try {
                     const DeletedTrip = await Trip.findByIdAndDelete(id);
+
+                    const FinancesFix = await Passenger_Trip.find({ trip_id : trip._id });
+                    FinancesFix.forEach(async (element) => {
+                        const deleteFinance = await Passenger_Trip.findByIdAndDelete( element._id )
+                    })
+                    
                     return {
                         message: "Carona deletada com sucesso",
                         status: 200,
