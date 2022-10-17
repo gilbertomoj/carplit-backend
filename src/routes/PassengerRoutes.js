@@ -76,7 +76,7 @@ router.get("/retrieve/:id", UserAuth, async (req, res) => {
         passenger_id
     );
 
-    return res.status(result.status).json(result.passenger);
+    return res.status(result.status).json(result);
 });
 
 router.put("/update/:id", UserAuth, async (req, res) => {

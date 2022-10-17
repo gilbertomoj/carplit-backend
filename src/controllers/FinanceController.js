@@ -126,7 +126,6 @@ module.exports = {
             // procurar a viagem no Passenger_Trip
             // load finance dessa viagem
             
-          
             // return {, status: 200}
             
         } catch (error) {

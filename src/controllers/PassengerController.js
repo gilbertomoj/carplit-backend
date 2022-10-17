@@ -59,9 +59,26 @@ module.exports = {
                     status: permission.status,
                 };
             }
-            return {
+
+            const passenger_finance = await Passenger_Trip.find({ passenger_id: id})
+            var total_value = 0
+            var trips_paid = []
+            passenger_finance.forEach((element) => {
+                if( element.hasPaid ){
+                    trips_paid.push({
+                        element
+                    })
+                }
+                total_value += element.value
+            })
+
+            const obj = {
                 passenger,
-                message: "Passageiro recuperado com sucesso",
+                total_value,
+                trips_paid
+            }
+            return {
+                obj,
                 status: 200,
             };
         } catch (error) {
