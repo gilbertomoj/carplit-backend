@@ -84,6 +84,7 @@ module.exports = {
             let totalValue = (path_find.totalDistance / user_find.average_consumption) * user_find.fuel_per_liter;
 
             const createdTrip = await Trip.create({
+                date,
                 path,
                 passengers,
                 value: totalValue,
