@@ -61,21 +61,29 @@ module.exports = {
             }
 
             const passenger_finance = await Passenger_Trip.find({ passenger_id: id})
-            var total_value = 0
-            var trips_paid = []
+            var totalDebt = 0
+            var totalPaid = 0
+            var tripHistory = []
             passenger_finance.forEach((element) => {
-                if( element.hasPaid ){
-                    trips_paid.push({
-                        element
+                tripHistory.push({
+                        id: element._id,
+                        value: element.value,
+                        isPaid: element.hasPaid
                     })
+                    
+
+                if(element.hasPaid){
+                    totalPaid += element.value
+                }else{
+                    totalDebt += element.value
                 }
-                total_value += element.value
             })
 
             const obj = {
                 passenger,
-                total_value,
-                trips_paid
+                tripHistory,
+                totalDebt,
+                totalPaid
             }
             return {
                 obj,
