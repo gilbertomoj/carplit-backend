@@ -1,4 +1,6 @@
 const Passenger = require("../models/Passenger");
+const Trips = require("../models/Trip");
+
 
 const bcript = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -6,6 +8,7 @@ const config = require("../config/auth");
 const permissions = require("../config/check_permission");
 const check_permission = require("../config/check_permission");
 const Passenger_Trip = require("../models/Passenger_Trip");
+const TripController = require("./TripController");
 require("dotenv").config();
 
 module.exports = {
@@ -60,18 +63,19 @@ module.exports = {
                 };
             }
 
-            const passenger_finance = await Passenger_Trip.find({ passenger_id: id})
+            const passenger_finance = await Passenger_Trip.find({ passenger_id: id}).populate("trip_id")
             var totalDebt = 0
             var totalPaid = 0
             var tripHistory = []
             passenger_finance.forEach((element) => {
+                
                 tripHistory.push({
-                        id: element._id,
+                        trip_id: element.trip_id._id,
+                        trip_path: element.trip_id.path,
                         value: element.value,
                         isPaid: element.hasPaid
                     })
-                    
-
+                
                 if(element.hasPaid){
                     totalPaid += element.value
                 }else{
