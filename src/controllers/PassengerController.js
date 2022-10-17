@@ -63,7 +63,7 @@ module.exports = {
                 };
             }
 
-            const passenger_finance = await Passenger_Trip.find({ passenger_id: id}).populate({path : "trip_id", populate: {path: 'path'}})
+            const passenger_finance = await Passenger_Trip.find({ passenger_id: id}).populate({path : "trip_id", populate: {path: 'path'}}).populate("passenger_id")
             // const passenger = await Passenger.findById(passenger_id).populate({path: "carpoolHistory", populate : { path : 'path' }})
 
             var totalDebt = 0
@@ -72,6 +72,8 @@ module.exports = {
             passenger_finance.forEach((element) => {
 
                 tripHistory.push({
+                        passenger_name: element.passenger_id.name,
+                        passenger_address: element.passenger_id.address,
                         trip_id: element.trip_id._id,
                         trip_path: element.trip_id.path.title,
                         date: element.date,
