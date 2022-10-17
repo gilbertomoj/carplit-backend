@@ -68,10 +68,11 @@ module.exports = {
             var totalPaid = 0
             var tripHistory = []
             passenger_finance.forEach((element) => {
-                
+
                 tripHistory.push({
                         trip_id: element.trip_id._id,
                         trip_path: element.trip_id.path,
+                        date: element.date,
                         value: element.value,
                         isPaid: element.hasPaid
                     })
