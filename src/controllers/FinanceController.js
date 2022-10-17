@@ -60,7 +60,7 @@ module.exports = {
                         })
 
                         // total_cost => total que o usuário recebeu dos passageiros
-                        balance.push({ passenger: values[1].name, debt})
+                        balance.push({ passenger: values[1].name, passenger_id: values[1]._id, debt})
                     })
                     return balance
                 })
