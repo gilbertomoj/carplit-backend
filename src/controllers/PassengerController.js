@@ -63,7 +63,9 @@ module.exports = {
                 };
             }
 
-            const passenger_finance = await Passenger_Trip.find({ passenger_id: id}).populate("trip_id")
+            const passenger_finance = await Passenger_Trip.find({ passenger_id: id}).populate({path : "trip_id", populate: {path: 'path'}})
+            // const passenger = await Passenger.findById(passenger_id).populate({path: "carpoolHistory", populate : { path : 'path' }})
+
             var totalDebt = 0
             var totalPaid = 0
             var tripHistory = []
@@ -71,7 +73,7 @@ module.exports = {
 
                 tripHistory.push({
                         trip_id: element.trip_id._id,
-                        trip_path: element.trip_id.path,
+                        trip_path: element.trip_id.path.title,
                         date: element.date,
                         value: element.value,
                         isPaid: element.hasPaid
