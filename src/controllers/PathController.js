@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const config = require("../config/auth");
 const permissions = require("../config/check_permission");
 const check_permission = require("../config/check_permission");
+const Trip = require("../models/Trip");
 require("dotenv").config();
 
 module.exports = {
@@ -112,11 +113,20 @@ module.exports = {
                     status: permission.status,
                 };
             } else {
-                const deletedPath = await Path.findByIdAndDelete(id);
-                return {
-                    message: "Caminho deletado com sucesso",
-                    status: 200,
-                };
+                const foundPath = await Trip.findOne({ path: path._id })
+                if(foundPath){
+                    return {
+                        message: "Não pode deletar, está sendo usado por uma carona",
+                        status: 403,
+                    };
+                } else {
+                    const deletedPath = await Path.findByIdAndDelete(id);
+                    return {
+                        message: "Caminho deletado com sucesso",
+                        status: 200,
+                    };
+                }
+
             }
         } catch (error) {
             return {

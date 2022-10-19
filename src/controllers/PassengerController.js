@@ -151,17 +151,24 @@ module.exports = {
                     status: permission.status,
                 };
             } else {
-
-                const deletedPassenger = await Passenger.findByIdAndDelete(id);
-                const foundPassengerTrips = await Passenger_Trip.find({ passenger_trip: id})
-                foundPassengerTrips.forEach(async (element)=>{
-                    const deletePassengers = await Passenger_Trip.findOneAndDelete( element.passenger_id )
-                    console.log("deletado")
-                })
-                return {
-                    message: "Passageiro deletado com sucesso",
-                    status: 200,
-                };
+                const foundPassenger = await Passenger_Trip.findOne({ passenger_id: id })
+                if(foundPassenger){
+                    return {
+                        message: "Não pode deletar, está sendo usado por uma carona",
+                        status: 403,
+                    };
+                }else{
+                    const deletedPassenger = await Passenger.findByIdAndDelete(id);
+                    const foundPassengerTrips = await Passenger_Trip.find({ passenger_trip: id})
+                    foundPassengerTrips.forEach(async (element)=>{
+                        const deletePassengers = await Passenger_Trip.findOneAndDelete( element.passenger_id )
+                        console.log("deletado")
+                    })
+                    return {
+                        message: "Passageiro deletado com sucesso",
+                        status: 200,
+                    };
+                }
             }
         } catch (error) {
             return { message: error, status: 400 };

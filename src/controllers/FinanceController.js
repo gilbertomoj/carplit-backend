@@ -107,13 +107,12 @@ module.exports = {
 
             // })
             // console.log(passenger_obj)
+            
             const findTrips = await Passenger_Trip.find({ passenger_id: passenger })
             console.log(findTrips)
 
             // console.log(findTrips.lenght)
             // console.log(findTrips)
-
-
 
             // let finances = []
             // findTrips.forEach(async (element) => {
