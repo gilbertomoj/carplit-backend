@@ -11,6 +11,7 @@ const TripController = require("../controllers/TripController");
 // Middlewares
 const UserAuth = require("../middleware/UserAuth");
 const PathController = require("../controllers/PathController");
+const User = require("../models/User");
 
 router.post("/verify/email", async (req, res) => {
     /*  #swagger.tags = ['User']
@@ -180,11 +181,17 @@ router.delete("/delete", UserAuth, async (req, res) => {
   try {
     const id = req.user_id;
     const result = await UserController.deleteUser(id);
+
     return res.status(result.status).json(result.message);
   } catch (error){
       return res.status(500).json({ message: error });
   }
 });
+
+router.delete("/delete/one", UserAuth, async (req, res) => {
+    const deleteJooa = await User.deleteOne({ email: "Joao@carplit.com"})
+    console.log(deleteJooa)
+})
 
 router.get("/recover_password", async (req, res)=>{
     try {

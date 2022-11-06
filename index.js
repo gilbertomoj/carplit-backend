@@ -5,7 +5,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const swaggerUi = require("swagger-ui-express");
-const swaggerDocs = require("../swagger.json");
+const swaggerDocs = require("./swagger.json");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -22,17 +22,17 @@ mongoose.connect(process.env.DATABASE_URL, {
 });
 
 // Import de models
-const UserModel = require("./models/User");
-const PassengerModel = require("./models/Passenger");
-const PathModel = require("./models/Path");
-const TripModel = require("./models/Trip");
+const UserModel = require("./src/models/User");
+const PassengerModel = require("./src/models/Passenger");
+const PathModel = require("./src/models/Path");
+const TripModel = require("./src/models/Trip");
 
 // Inicialização das rotas
-const userRoutes = require("./routes/UserRoutes");
-const passengerRoutes = require("./routes/PassengerRoutes");
-const pathRoutes = require("./routes/PathRoutes");
-const tripRoutes = require("./routes/TripRoutes");
-const financeRoutes = require("./routes/FinanceRoutes");
+const userRoutes = require("./src/routes/UserRoutes");
+const passengerRoutes = require("./src/routes/PassengerRoutes");
+const pathRoutes = require("./src/routes/PathRoutes");
+const tripRoutes = require("./src/routes/TripRoutes");
+const financeRoutes = require("./src/routes/FinanceRoutes");
 // Rotas
 app.use("/user", userRoutes);
 app.use("/passenger", passengerRoutes);
